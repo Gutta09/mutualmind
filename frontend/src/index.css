@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* react-select dark-ish override to match Tailwind slate palette */
+.rs__control {
+  border-color: #cbd5e1 !important;
+  border-radius: 8px !important;
+  min-height: 44px !important;
+}
+.rs__menu {
+  z-index: 50 !important;
+}
