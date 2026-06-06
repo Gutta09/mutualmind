@@ -14,6 +14,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://mutualmind.vercel.app",
+        "https://frontend-inky-one-74.vercel.app",
+        "https://frontend-id63q2v8a-gutta09s-projects.vercel.app",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
     ],
