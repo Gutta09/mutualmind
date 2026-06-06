@@ -1,14 +1,16 @@
 import os
 import json
-import anthropic
+from groq import Groq
 
 _client = None
 
+MODEL = "llama-3.3-70b-versatile"
 
-def get_client() -> anthropic.Anthropic:
+
+def get_client() -> Groq:
     global _client
     if _client is None:
-        _client = anthropic.Anthropic(api_key=os.environ["CLAUDE_API_KEY"])
+        _client = Groq(api_key=os.environ["GROQ_API_KEY"])
     return _client
 
 
@@ -81,24 +83,30 @@ Respond with this exact JSON:
 
 async def get_recommendations(profile: dict, funds: list) -> dict:
     prompt = _build_recommendations_prompt(profile, funds)
-    message = get_client().messages.create(
-        model="claude-sonnet-4-6",
+    response = get_client().chat.completions.create(
+        model=MODEL,
         max_tokens=1024,
-        system=RECOMMENDATIONS_SYSTEM,
-        messages=[{"role": "user", "content": prompt}],
+        messages=[
+            {"role": "system", "content": RECOMMENDATIONS_SYSTEM},
+            {"role": "user", "content": prompt},
+        ],
+        response_format={"type": "json_object"},
     )
-    return json.loads(message.content[0].text)
+    return json.loads(response.choices[0].message.content)
 
 
 async def get_sentiments(articles: list) -> list:
     if not articles:
         return []
     prompt = _build_sentiment_prompt(articles)
-    message = get_client().messages.create(
-        model="claude-sonnet-4-6",
+    response = get_client().chat.completions.create(
+        model=MODEL,
         max_tokens=512,
-        system=SENTIMENT_SYSTEM,
-        messages=[{"role": "user", "content": prompt}],
+        messages=[
+            {"role": "system", "content": SENTIMENT_SYSTEM},
+            {"role": "user", "content": prompt},
+        ],
+        response_format={"type": "json_object"},
     )
-    result = json.loads(message.content[0].text)
+    result = json.loads(response.choices[0].message.content)
     return result.get("sentiments", [])
