@@ -40,7 +40,7 @@ export default function Dashboard() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
       {/* Profile header */}
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-2xl p-6 text-white">
+      <div className="bg-linear-to-r from-indigo-600 to-indigo-700 rounded-2xl p-6 text-white">
         <div className="flex items-start justify-between">
           <div>
             <p className="text-indigo-200 text-sm mb-1">Your investor profile</p>

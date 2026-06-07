@@ -3,6 +3,7 @@ import { useApp } from '../../context/AppContext'
 
 const NAV_LINKS = [
   { to: '/dashboard', label: 'Dashboard' },
+  { to: '/funds', label: 'Funds' },
   { to: '/compare', label: 'Compare' },
   { to: '/overlap', label: 'Overlap' },
   { to: '/calculator', label: 'SIP Calc' },

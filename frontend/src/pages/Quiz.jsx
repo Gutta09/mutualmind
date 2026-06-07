@@ -113,7 +113,7 @@ export default function Quiz() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-indigo-50 flex items-center justify-center px-4 py-12">
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-lg p-8">
 
         {/* Goal form — step 0 */}

@@ -8,6 +8,7 @@ import Comparator from './pages/Comparator'
 import OverlapVisualizer from './pages/OverlapVisualizer'
 import SIPCalculator from './pages/SIPCalculator'
 import FundDetail from './pages/FundDetail'
+import Funds from './pages/Funds'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ function AppLayout() {
         <Route path="/compare" element={<Comparator />} />
         <Route path="/overlap" element={<OverlapVisualizer />} />
         <Route path="/calculator" element={<SIPCalculator />} />
+        <Route path="/funds" element={<Funds />} />
         <Route path="/fund/:scheme_code" element={<FundDetail />} />
       </Routes>
     </div>

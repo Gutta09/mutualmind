@@ -105,7 +105,7 @@ export default function SIPCalculator() {
       </div>
 
       {/* Result hero */}
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-2xl p-6 text-white">
+      <div className="bg-linear-to-r from-indigo-600 to-indigo-700 rounded-2xl p-6 text-white">
         <p className="text-indigo-200 text-sm mb-1">Monthly SIP required</p>
         <p className="text-4xl font-extrabold mb-4">{formatINR(monthly)}<span className="text-lg font-medium text-indigo-200"> / month</span></p>
         <div className="grid grid-cols-3 gap-4">

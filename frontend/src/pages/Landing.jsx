@@ -33,7 +33,7 @@ export default function Landing() {
   const { riskProfile } = useApp()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-indigo-50">
       {/* Hero */}
       <div className="max-w-4xl mx-auto px-4 pt-20 pb-16 text-center">
         <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
@@ -64,10 +64,10 @@ export default function Landing() {
             </Link>
           )}
           <Link
-            to="/compare"
+            to="/funds"
             className="bg-white text-slate-700 font-semibold px-7 py-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:text-indigo-600 transition-colors text-base"
           >
-            Compare Funds
+            Browse Funds
           </Link>
         </div>
       </div>
