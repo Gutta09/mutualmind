@@ -17,8 +17,7 @@ PERIOD_DAYS = {
 
 
 def _parse_date(date_str: str) -> datetime:
-    """Convert DD-MM-YYYY to a datetime object."""
-    return datetime.strptime(date_str, "%d-%m-%Y")
+    return datetime.strptime(date_str, "%Y-%m-%d")
 
 
 def _filter_by_period(nav_data: list, period: str) -> list:
