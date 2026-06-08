@@ -14,12 +14,20 @@ async def recommendations(body: RecommendationsRequest):
     if profile_doc and profile_doc.get("recommendations"):
         return profile_doc["recommendations"]
 
-    # Fetch all funds for Claude to select from
-    cursor = funds_col().find({})
-    all_funds = [
-        {k: v for k, v in doc.items() if k != "_id"}
-        async for doc in cursor
-    ]
+    # Send only funds matching the user's risk profile (+ one level adjacent)
+    # to keep the prompt under ~4k tokens instead of sending all 987
+    risk_map = {
+        "Conservative": ["Conservative", "Moderate"],
+        "Moderate": ["Conservative", "Moderate", "Aggressive"],
+        "Aggressive": ["Moderate", "Aggressive"],
+    }
+    risk_labels = risk_map.get(body.risk_profile, ["Moderate"])
+    cursor = funds_col().find(
+        {"risk_label": {"$in": risk_labels}},
+        {"scheme_code": 1, "scheme_name": 1, "category": 1, "risk_label": 1,
+         "returns_1y": 1, "returns_3y": 1, "returns_5y": 1, "expense_ratio": 1, "_id": 0},
+    ).limit(80)
+    all_funds = [doc async for doc in cursor]
 
     profile_dict = {
         "risk_profile": body.risk_profile,
