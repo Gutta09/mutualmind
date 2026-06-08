@@ -13,12 +13,12 @@ export default function RecommendationCard({ recommendations = [], aiSummary = '
   }))
 
   return (
-    <div style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 18, padding: 22 }}>
+    <div style={{ background: 'var(--panel-grad)', border: '1px solid var(--border)', borderRadius: 18, padding: 22 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-        <h3 style={{ fontSize: 17, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif', margin: 0 }}>AI Recommendations</h3>
+        <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text)', fontFamily: 'Georgia, serif', margin: 0 }}>AI Recommendations</h3>
       </div>
       {aiSummary && (
-        <p style={{ fontSize: 13, color: '#8a8174', marginBottom: 20, lineHeight: 1.65 }}>{aiSummary}</p>
+        <p style={{ fontSize: 13, color: 'var(--text3)', marginBottom: 20, lineHeight: 1.65 }}>{aiSummary}</p>
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -41,13 +41,13 @@ export default function RecommendationCard({ recommendations = [], aiSummary = '
               <div style={{ width: 10, height: 10, borderRadius: '50%', background: COLORS[i % COLORS.length], marginTop: 4, flexShrink: 0 }} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
-                  <Link to={`/fund/${rec.scheme_code}`} style={{ fontSize: 13, fontWeight: 700, color: '#e8e2d4', textDecoration: 'none', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <Link to={`/fund/${rec.scheme_code}`} style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', textDecoration: 'none', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {rec.scheme_name?.split(' - ')[0]}
                   </Link>
                   <span style={{ fontSize: 12, fontWeight: 800, color: COLORS[i % COLORS.length], flexShrink: 0 }}>{rec.allocation_pct}%</span>
                 </div>
-                <p style={{ fontSize: 12, color: '#5a544a', lineHeight: 1.5, margin: '0 0 6px' }}>{rec.reason}</p>
-                <div style={{ height: 3, background: '#1a1610', borderRadius: 2 }}>
+                <p style={{ fontSize: 12, color: 'var(--text4)', lineHeight: 1.5, margin: '0 0 6px' }}>{rec.reason}</p>
+                <div style={{ height: 3, background: 'var(--card-inner)', borderRadius: 2 }}>
                   <div style={{ width: `${rec.allocation_pct}%`, height: '100%', background: COLORS[i % COLORS.length], borderRadius: 2 }} />
                 </div>
               </div>
@@ -56,7 +56,7 @@ export default function RecommendationCard({ recommendations = [], aiSummary = '
         </div>
       </div>
 
-      <p style={{ fontSize: 11, color: '#3a352c', marginTop: 18, paddingTop: 14, borderTop: '1px solid #1e1b15' }}>
+      <p style={{ fontSize: 11, color: 'var(--muted)', marginTop: 18, paddingTop: 14, borderTop: '1px solid var(--border3)' }}>
         AI suggestions are educational only. Consult a SEBI-registered advisor before investing.
       </p>
     </div>

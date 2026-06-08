@@ -32,7 +32,7 @@ export default function OverlapVisualizer() {
 
       <div style={{ marginBottom: 24 }}>
         <h1 style={S.h1}>Portfolio Overlap</h1>
-        <p style={{ fontSize: 13, color: '#5a544a', margin: 0 }}>See which stocks your funds share — avoid unknowing redundancy</p>
+        <p style={{ fontSize: 13, color: 'var(--text4)', margin: 0 }}>See which stocks your funds share — avoid unknowing redundancy</p>
       </div>
 
       <div style={{ ...S.panel, marginBottom: 20 }}>
@@ -44,7 +44,7 @@ export default function OverlapVisualizer() {
           <span style={S.badge}>max 3</span>
         </div>
         {loading ? (
-          <div style={{ height: 44, background: '#1a1610', borderRadius: 10, opacity: 0.5 }} />
+          <div style={{ height: 44, background: 'var(--card-inner)', borderRadius: 10, opacity: 0.5 }} />
         ) : (
           <FundSelector funds={funds} selected={selectedCodes} onChange={setSelectedCodes} maxFunds={3} placeholder="Search funds..." />
         )}
@@ -62,10 +62,10 @@ export default function OverlapVisualizer() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {allOverlaps.map((pair, i) => (
               <div key={i}>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#e8e2d4', marginBottom: 8 }}>
-                  <span style={{ color: '#c9c2b4' }}>{pair.a}</span>
-                  <span style={{ color: '#5a544a', margin: '0 8px' }}>∩</span>
-                  <span style={{ color: '#c9c2b4' }}>{pair.b}</span>
+                <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>
+                  <span style={{ color: 'var(--text2)' }}>{pair.a}</span>
+                  <span style={{ color: 'var(--text4)', margin: '0 8px' }}>∩</span>
+                  <span style={{ color: 'var(--text2)' }}>{pair.b}</span>
                   <span style={{ fontSize: 11, color: '#e0aa3e', fontWeight: 700, marginLeft: 10 }}>{pair.stocks.length} common stocks</span>
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -84,8 +84,8 @@ export default function OverlapVisualizer() {
       {selectedCodes.length === 0 && (
         <div style={{ textAlign: 'center', padding: '60px 0' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🔵</div>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>Select 2–3 funds to visualize overlap</p>
-          <p style={{ fontSize: 13, color: '#5a544a', marginTop: 6 }}>Large cap and index funds typically have 60–80% overlap</p>
+          <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)', fontFamily: 'Georgia, serif' }}>Select 2–3 funds to visualize overlap</p>
+          <p style={{ fontSize: 13, color: 'var(--text4)', marginTop: 6 }}>Large cap and index funds typically have 60–80% overlap</p>
         </div>
       )}
     </div>

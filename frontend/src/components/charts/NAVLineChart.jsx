@@ -23,7 +23,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
     <div style={tooltipStyle}>
-      <p style={{ color: '#5a544a', marginBottom: 6, fontSize: 11 }}>{label}</p>
+      <p style={{ color: 'var(--text4)', marginBottom: 6, fontSize: 11 }}>{label}</p>
       {payload.map((entry, i) => (
         <p key={i} style={{ color: entry.color, fontWeight: 700, margin: '2px 0' }}>
           {entry.name}: {entry.value?.toFixed(2)}
@@ -38,7 +38,7 @@ export default function NAVLineChart({ funds = [] }) {
 
   if (!chartData.length) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 240, color: '#5a544a', fontSize: 13 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 240, color: 'var(--text4)', fontSize: 13 }}>
         No NAV data available
       </div>
     )
@@ -49,18 +49,18 @@ export default function NAVLineChart({ funds = [] }) {
   return (
     <ResponsiveContainer width="100%" height={320}>
       <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#1e1b15" />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border3)" />
         <XAxis
           dataKey="date"
           tickFormatter={d => d?.slice(0, 7)}
           interval={tickInterval}
-          tick={{ fontSize: 11, fill: '#5a544a' }}
+          tick={{ fontSize: 11, fill: 'var(--text4)' }}
           axisLine={false}
           tickLine={false}
         />
         <YAxis
           domain={['auto', 'auto']}
-          tick={{ fontSize: 11, fill: '#5a544a' }}
+          tick={{ fontSize: 11, fill: 'var(--text4)' }}
           axisLine={false}
           tickLine={false}
           tickFormatter={v => `${v}`}
@@ -70,10 +70,10 @@ export default function NAVLineChart({ funds = [] }) {
         <Legend
           formatter={(value) => {
             const idx = parseInt(value.split('_')[1])
-            return <span style={{ fontSize: 12, color: '#8a8174' }}>{funds[idx]?.scheme_name?.split(' - ')[0]?.slice(0, 30)}</span>
+            return <span style={{ fontSize: 12, color: 'var(--text3)' }}>{funds[idx]?.scheme_name?.split(' - ')[0]?.slice(0, 30)}</span>
           }}
         />
-        <ReferenceLine y={100} stroke="#3a352c" strokeDasharray="4 4" label={{ value: 'Base 100', fill: '#3a352c', fontSize: 10 }} />
+        <ReferenceLine y={100} stroke="var(--muted)" strokeDasharray="4 4" label={{ value: 'Base 100', fill: 'var(--text4)', fontSize: 10 }} />
         {funds.map((_, i) => (
           <Line
             key={i}

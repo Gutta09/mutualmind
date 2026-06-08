@@ -38,40 +38,40 @@ function RecCard({ rec, idx }) {
   const tip = CAT_INFO[rec.category] || rec.category
 
   return (
-    <div className="card-rise" style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 18, padding: 20, animationDelay: `${idx * 80}ms` }}>
+    <div className="card-rise" style={{ background: 'var(--panel-grad)', border: '1px solid var(--border)', borderRadius: 18, padding: 20, animationDelay: `${idx * 80}ms` }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
         <div style={{ width: 38, height: 38, borderRadius: 10, background: c + '20', border: `1px solid ${c}40`, display: 'grid', placeItems: 'center', fontSize: 15, fontWeight: 800, color: c, flexShrink: 0 }}>
           {idx + 1}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <Link to={`/fund/${rec.scheme_code}`} style={{ fontWeight: 700, fontSize: 14, color: '#e8e2d4', textDecoration: 'none', display: 'block', lineHeight: 1.4 }}
-            onMouseEnter={e => e.target.style.color = c} onMouseLeave={e => e.target.style.color = '#e8e2d4'}>
+          <Link to={`/fund/${rec.scheme_code}`} style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)', textDecoration: 'none', display: 'block', lineHeight: 1.4 }}
+            onMouseEnter={e => e.target.style.color = c} onMouseLeave={e => e.target.style.color = 'var(--text)'}>
             {name}
           </Link>
           <div style={{ marginTop: 5, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: 10, background: c + '18', color: c, borderRadius: 6, padding: '3px 8px', fontWeight: 700 }}>{rec.category}</span>
-            <span style={{ fontSize: 10, color: '#5a544a' }}>{tip}</span>
+            <span style={{ fontSize: 10, color: 'var(--text4)' }}>{tip}</span>
           </div>
         </div>
         <div style={{ textAlign: 'right', flexShrink: 0 }}>
           <div style={{ fontSize: 26, fontWeight: 800, color: c, lineHeight: 1 }}>{rec.allocation_pct}%</div>
-          <div style={{ fontSize: 10, color: '#5a544a', marginTop: 2 }}>allocation</div>
+          <div style={{ fontSize: 10, color: 'var(--text4)', marginTop: 2 }}>allocation</div>
         </div>
       </div>
 
-      <div style={{ height: 3, background: '#1a1610', borderRadius: 2, marginBottom: 14 }}>
+      <div style={{ height: 3, background: 'var(--card-inner)', borderRadius: 2, marginBottom: 14 }}>
         <div style={{ width: `${rec.allocation_pct}%`, height: '100%', background: c, borderRadius: 2 }} />
       </div>
 
-      <p style={{ fontSize: 13, color: '#c9c2b4', lineHeight: 1.6, marginBottom: 14 }}>{rec.reason}</p>
+      <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6, marginBottom: 14 }}>{rec.reason}</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
         {[['1Y Return', rec.returns_1y], ['3Y Return', rec.returns_3y], ['Exp. Ratio', rec.expense_ratio ? rec.expense_ratio + '%' : null]].map(([label, val]) => (
-          <div key={label} style={{ background: '#0d0b07', borderRadius: 10, padding: '10px 8px', textAlign: 'center' }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: label.includes('Ratio') ? '#c9c2b4' : val != null && val >= 0 ? '#7fb069' : '#e7625f' }}>
+          <div key={label} style={{ background: 'var(--bg)', borderRadius: 10, padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: label.includes('Ratio') ? 'var(--text2)' : val != null && val >= 0 ? '#7fb069' : '#e7625f' }}>
               {val != null ? (typeof val === 'number' && !label.includes('Ratio') ? `${val > 0 ? '+' : ''}${val}%` : val) : '—'}
             </div>
-            <div style={{ fontSize: 10, color: '#5a544a', marginTop: 2 }}>{label}</div>
+            <div style={{ fontSize: 10, color: 'var(--text4)', marginTop: 2 }}>{label}</div>
           </div>
         ))}
       </div>
@@ -110,15 +110,15 @@ export default function Dashboard() {
       <div style={{ position: 'fixed', top: -200, right: -100, width: 500, height: 500, background: 'radial-gradient(circle,rgba(224,170,62,.05),transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
 
       {/* Profile card */}
-      <div className="card-rise" style={{ background: 'linear-gradient(160deg,#16130d,#110e09)', border: `1px solid ${meta.color}30`, borderRadius: 20, padding: 24, marginBottom: 24 }}>
+      <div className="card-rise" style={{ background: 'var(--panel-grad)', border: `1px solid ${meta.color}30`, borderRadius: 20, padding: 24, marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }}>
           <div>
-            <div style={{ fontSize: 11, color: '#5a544a', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 4 }}>Your investor profile</div>
-            <div style={{ fontSize: 24, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>{riskProfile} Investor</div>
+            <div style={{ fontSize: 11, color: 'var(--text4)', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 4 }}>Your investor profile</div>
+            <div style={{ fontSize: 24, fontWeight: 700, color: 'var(--text)', fontFamily: 'Georgia, serif' }}>{riskProfile} Investor</div>
           </div>
           <RiskBadge profile={riskProfile} size="lg" />
         </div>
-        <p style={{ fontSize: 13, color: '#8a8174', margin: '0 0 14px' }}>{meta.tagline}</p>
+        <p style={{ fontSize: 13, color: 'var(--text3)', margin: '0 0 14px' }}>{meta.tagline}</p>
         {quizResult && (
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {[`Goal: ${quizResult.investment_goal}`, `Horizon: ${quizResult.horizon_years} years`].map(t => (
@@ -126,28 +126,28 @@ export default function Dashboard() {
             ))}
           </div>
         )}
-        <button onClick={() => navigate('/quiz')} style={{ marginTop: 12, fontSize: 11, color: '#5a544a', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>Retake quiz</button>
+        <button onClick={() => navigate('/quiz')} style={{ marginTop: 12, fontSize: 11, color: 'var(--text4)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>Retake quiz</button>
       </div>
 
       {/* AI Picks header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, color: '#e8e2d4', margin: 0, fontFamily: 'Georgia, serif' }}>Your AI-Curated Portfolio</h2>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 10, background: '#e0aa3e', color: '#0d0b07', fontWeight: 800, padding: '4px 10px', borderRadius: 999, letterSpacing: '.5px' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text)', margin: 0, fontFamily: 'Georgia, serif' }}>Your AI-Curated Portfolio</h2>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 10, background: '#e0aa3e', color: 'var(--on-accent)', fontWeight: 800, padding: '4px 10px', borderRadius: 999, letterSpacing: '.5px' }}>
           <Sparkles size={11} /> AI
         </span>
       </div>
-      <p style={{ fontSize: 12, color: '#5a544a', marginBottom: 20 }}>
+      <p style={{ fontSize: 12, color: 'var(--text4)', marginBottom: 20 }}>
         Personalized for your {riskProfile?.toLowerCase()} profile · {quizResult?.investment_goal} goal
       </p>
 
       {/* Loading */}
       {loading && (
-        <div style={{ background: 'linear-gradient(160deg,#16130d,#110e09)', border: '1px solid #25211a', borderRadius: 18, padding: 40, textAlign: 'center' }}>
+        <div style={{ background: 'var(--panel-grad)', border: '1px solid var(--border)', borderRadius: 18, padding: 40, textAlign: 'center' }}>
           <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(224,170,62,.1)', display: 'grid', placeItems: 'center', margin: '0 auto 16px', color: '#e0aa3e' }}>
             <Brain size={22} />
           </div>
-          <div style={{ fontSize: 16, fontWeight: 600, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>Analyzing 987 funds for you…</div>
-          <div style={{ fontSize: 12, color: '#5a544a', marginTop: 6 }}>Usually takes about 10 seconds</div>
+          <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', fontFamily: 'Georgia, serif' }}>Analyzing 987 funds for you…</div>
+          <div style={{ fontSize: 12, color: 'var(--text4)', marginTop: 6 }}>Usually takes about 10 seconds</div>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 18 }}>
             {[0,1,2].map(i => <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: '#e0aa3e', animation: 'rise .6s ease-in-out infinite alternate', animationDelay: `${i*200}ms` }} />)}
           </div>
@@ -156,9 +156,9 @@ export default function Dashboard() {
 
       {/* Error */}
       {error && !loading && (
-        <div style={{ background: '#1a0f0f', border: '1px solid #5a2020', borderRadius: 18, padding: 20 }}>
+        <div style={{ background: 'var(--danger-bg)', border: '1px solid #5a2020', borderRadius: 18, padding: 20 }}>
           <div style={{ fontSize: 14, fontWeight: 600, color: '#e7625f' }}>Could not load recommendations</div>
-          <div style={{ fontSize: 12, color: '#8a8174', marginTop: 4 }}>{error}</div>
+          <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>{error}</div>
         </div>
       )}
 
@@ -168,12 +168,12 @@ export default function Dashboard() {
           {/* Summary */}
           {recommendations.ai_summary && (
             <div className="card-rise" style={{ background: 'rgba(224,170,62,.06)', border: '1px solid rgba(224,170,62,.15)', borderRadius: 16, padding: 18 }}>
-              <p style={{ fontSize: 13, color: '#c9c2b4', lineHeight: 1.65, margin: 0 }}>{recommendations.ai_summary}</p>
+              <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.65, margin: 0 }}>{recommendations.ai_summary}</p>
             </div>
           )}
 
           {/* Allocation overview */}
-          <div className="card-rise" style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 18, padding: 20, display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
+          <div className="card-rise" style={{ background: 'var(--panel-grad)', border: '1px solid var(--border)', borderRadius: 18, padding: 20, display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
             <div style={{ width: 120, height: 120, flexShrink: 0 }}>
               <ResponsiveContainer width="100%" height={120}>
                 <PieChart>
@@ -185,15 +185,15 @@ export default function Dashboard() {
               </ResponsiveContainer>
             </div>
             <div style={{ flex: 1, minWidth: 240 }}>
-              <div style={{ fontSize: 11, color: '#5a544a', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 10 }}>Suggested Allocation</div>
+              <div style={{ fontSize: 11, color: 'var(--text4)', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 10 }}>Suggested Allocation</div>
               {recs.map((r, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                   <div style={{ width: 10, height: 10, borderRadius: '50%', background: COLORS[i % COLORS.length], flexShrink: 0 }} />
-                  <div style={{ flex: 1, height: 3, background: '#1a1610', borderRadius: 2 }}>
+                  <div style={{ flex: 1, height: 3, background: 'var(--card-inner)', borderRadius: 2 }}>
                     <div style={{ width: `${r.allocation_pct}%`, height: '100%', background: COLORS[i % COLORS.length], borderRadius: 2 }} />
                   </div>
-                  <span style={{ fontSize: 11, color: '#c9c2b4', width: 28, textAlign: 'right', fontWeight: 700 }}>{r.allocation_pct}%</span>
-                  <span style={{ fontSize: 11, color: '#8a8174', flex: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.scheme_name?.split(' - ')[0]?.slice(0, 28)}</span>
+                  <span style={{ fontSize: 11, color: 'var(--text2)', width: 28, textAlign: 'right', fontWeight: 700 }}>{r.allocation_pct}%</span>
+                  <span style={{ fontSize: 11, color: 'var(--text3)', flex: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.scheme_name?.split(' - ')[0]?.slice(0, 28)}</span>
                 </div>
               ))}
             </div>
@@ -201,7 +201,7 @@ export default function Dashboard() {
 
           {recs.map((rec, i) => <RecCard key={rec.scheme_code} rec={rec} idx={i} />)}
 
-          <div style={{ textAlign: 'center', fontSize: 11, color: '#3a352c', paddingTop: 4 }}>
+          <div style={{ textAlign: 'center', fontSize: 11, color: 'var(--muted)', paddingTop: 4 }}>
             Educational only — consult a SEBI-registered advisor before investing
           </div>
         </div>
@@ -209,13 +209,13 @@ export default function Dashboard() {
 
       {/* No quiz result fallback */}
       {!loading && !recommendations && !error && (
-        <div style={{ background: 'linear-gradient(160deg,#16130d,#110e09)', border: '2px dashed #25211a', borderRadius: 18, padding: 40, textAlign: 'center' }}>
+        <div style={{ background: 'var(--panel-grad)', border: '2px dashed #25211a', borderRadius: 18, padding: 40, textAlign: 'center' }}>
           <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(224,170,62,.1)', display: 'grid', placeItems: 'center', margin: '0 auto 16px', color: '#e0aa3e' }}>
             <Target size={24} />
           </div>
-          <div style={{ fontSize: 16, fontWeight: 600, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>No recommendations yet</div>
-          <div style={{ fontSize: 12, color: '#5a544a', marginTop: 6, marginBottom: 20 }}>Complete the quiz to get your personalized AI picks</div>
-          <button onClick={() => navigate('/quiz')} style={{ background: '#e0aa3e', color: '#0d0b07', border: 'none', borderRadius: 11, padding: '12px 24px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+          <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', fontFamily: 'Georgia, serif' }}>No recommendations yet</div>
+          <div style={{ fontSize: 12, color: 'var(--text4)', marginTop: 6, marginBottom: 20 }}>Complete the quiz to get your personalized AI picks</div>
+          <button onClick={() => navigate('/quiz')} style={{ background: '#e0aa3e', color: 'var(--on-accent)', border: 'none', borderRadius: 11, padding: '12px 24px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
             Take the Quiz
           </button>
         </div>
@@ -224,15 +224,15 @@ export default function Dashboard() {
       {/* What next */}
       {recs.length > 0 && (
         <div style={{ marginTop: 24 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif', marginBottom: 12 }}>What would you like to do next?</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', fontFamily: 'Georgia, serif', marginBottom: 12 }}>What would you like to do next?</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
             {QUICK.map((q, i) => (
-              <Link key={i} to={q.to} style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 14, padding: 16, textDecoration: 'none', display: 'block', transition: 'border-color .2s' }}
+              <Link key={i} to={q.to} style={{ background: 'var(--panel-grad)', border: '1px solid var(--border)', borderRadius: 14, padding: 16, textDecoration: 'none', display: 'block', transition: 'border-color .2s' }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = '#e0aa3e44'}
-                onMouseLeave={e => e.currentTarget.style.borderColor = '#25211a'}>
+                onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}>
                 <div style={{ color: '#e0aa3e', marginBottom: 8 }}>{q.icon}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#e8e2d4', marginBottom: 3 }}>{q.label}</div>
-                <div style={{ fontSize: 11, color: '#5a544a' }}>{q.sub}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 3 }}>{q.label}</div>
+                <div style={{ fontSize: 11, color: 'var(--text4)' }}>{q.sub}</div>
               </Link>
             ))}
           </div>

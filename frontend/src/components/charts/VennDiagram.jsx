@@ -30,8 +30,8 @@ export default function VennDiagram({ funds = [] }) {
       const ly = centers[i].y + (funds.length === 3 ? (i === 2 ? -(r + 14) : r + 22) : 0)
 
       svg.append('text').attr('x', lx).attr('y', ly)
-        .attr('text-anchor', 'middle').attr('fill', COLORS[i])
-        .attr('font-size', 11).attr('font-weight', '600')
+        .attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', '600')
+        .style('fill', COLORS[i])
         .text(fund.scheme_name?.split(' - ')[0]?.slice(0, 24))
     })
 
@@ -66,7 +66,7 @@ export default function VennDiagram({ funds = [] }) {
   return (
     <div>
       <svg ref={svgRef} style={{ width: '100%', background: 'transparent' }} />
-      <p style={{ textAlign: 'center', fontSize: 13, color: '#8a8174', marginTop: 6 }}>
+      <p style={{ textAlign: 'center', fontSize: 13, color: 'var(--text3)', marginTop: 6 }}>
         Overlap score: <span style={{ fontWeight: 700, color: pct > 50 ? '#e7625f' : '#7fb069' }}>{pct}%</span>
         {pct > 50 && <span style={{ marginLeft: 8, color: '#e7625f', fontSize: 11 }}>High redundancy</span>}
       </p>
@@ -78,12 +78,12 @@ function renderOverlapText(svg, stocks, x, y) {
   if (!stocks.length) return
   stocks.slice(0, 3).forEach((stock, i) => {
     svg.append('text').attr('x', x).attr('y', y + i * 14)
-      .attr('text-anchor', 'middle').attr('fill', '#e8e2d4')
-      .attr('font-size', 10).text(stock)
+      .attr('text-anchor', 'middle').attr('font-size', 10)
+      .style('fill', 'var(--text)').text(stock)
   })
   if (stocks.length > 3) {
     svg.append('text').attr('x', x).attr('y', y + 3 * 14)
-      .attr('text-anchor', 'middle').attr('fill', '#5a544a')
-      .attr('font-size', 9).text(`+${stocks.length - 3} more`)
+      .attr('text-anchor', 'middle').attr('font-size', 9)
+      .style('fill', 'var(--text4)').text(`+${stocks.length - 3} more`)
   }
 }

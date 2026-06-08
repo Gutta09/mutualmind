@@ -24,7 +24,7 @@ export default function Comparator() {
 
       <div style={{ marginBottom: 24 }}>
         <h1 style={S.h1}>Fund Comparator</h1>
-        <p style={{ fontSize: 13, color: '#5a544a', margin: 0 }}>Compare up to 5 funds with indexed performance charts — normalized returns, not raw NAV</p>
+        <p style={{ fontSize: 13, color: 'var(--text4)', margin: 0 }}>Compare up to 5 funds with indexed performance charts — normalized returns, not raw NAV</p>
       </div>
 
       {/* Fund selector */}
@@ -38,13 +38,13 @@ export default function Comparator() {
         </div>
 
         {fundsLoading ? (
-          <div style={{ height: 44, background: '#1a1610', borderRadius: 10, opacity: 0.5 }} />
+          <div style={{ height: 44, background: 'var(--card-inner)', borderRadius: 10, opacity: 0.5 }} />
         ) : (
           <FundSelector funds={funds} selected={selectedCodes} onChange={setSelectedCodes} maxFunds={5} />
         )}
 
         {selectedCodes.length > 0 && (
-          <p style={{ fontSize: 11, color: '#5a544a', marginTop: 10 }}>
+          <p style={{ fontSize: 11, color: 'var(--text4)', marginTop: 10 }}>
             📐 Charts are indexed to 100 at the start of the period — showing relative performance, not raw NAV
           </p>
         )}
@@ -58,7 +58,7 @@ export default function Comparator() {
             <div style={{ display: 'flex', gap: 4 }}>
               {PERIODS.map(p => (
                 <button key={p} onClick={() => setPeriod(p)}
-                  style={{ padding: '5px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, border: 'none', cursor: 'pointer', transition: 'all .15s', background: period === p ? '#e0aa3e' : '#1c1810', color: period === p ? '#0d0b07' : '#8a8174' }}>
+                  style={{ padding: '5px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, border: 'none', cursor: 'pointer', transition: 'all .15s', background: period === p ? '#e0aa3e' : 'var(--card-inner)', color: period === p ? 'var(--bg)' : 'var(--text3)' }}>
                   {PERIOD_LABELS[p]}
                 </button>
               ))}
@@ -67,7 +67,7 @@ export default function Comparator() {
 
           {navLoading && <ChartSkeleton height={300} />}
           {navError && (
-            <div style={{ background: '#1a0f0f', border: '1px solid #5a2020', borderRadius: 10, padding: 14, fontSize: 13, color: '#e7625f' }}>{navError}</div>
+            <div style={{ background: 'var(--danger-bg)', border: '1px solid #5a2020', borderRadius: 10, padding: 14, fontSize: 13, color: '#e7625f' }}>{navError}</div>
           )}
           {!navLoading && !navError && navFunds.length > 0 && <NAVLineChart funds={navFunds} />}
         </div>
@@ -87,17 +87,17 @@ export default function Comparator() {
           {selectedFundMeta.map((fund, i) => {
             const c = COLORS[i % COLORS.length]
             return (
-              <div key={fund.scheme_code} style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: `1px solid ${c}25`, borderRadius: 14, padding: 16 }}>
+              <div key={fund.scheme_code} style={{ background: 'var(--panel-grad)', border: `1px solid ${c}25`, borderRadius: 14, padding: 16 }}>
                 <div style={{ width: 3, height: 28, background: c, borderRadius: 2, marginBottom: 8 }} />
-                <p style={{ fontSize: 10, color: '#5a544a', margin: '0 0 3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fund.fund_house}</p>
-                <h3 style={{ fontSize: 12, fontWeight: 700, color: '#e8e2d4', margin: '0 0 12px', lineHeight: 1.4 }}>
+                <p style={{ fontSize: 10, color: 'var(--text4)', margin: '0 0 3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fund.fund_house}</p>
+                <h3 style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', margin: '0 0 12px', lineHeight: 1.4 }}>
                   {fund.scheme_name.split(' - ')[0]}
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 12 }}>
                   {[['Category', fund.category], ['Expense Ratio', fund.expense_ratio ? fund.expense_ratio + '%' : '—'], ['AUM', fund.aum_cr ? '₹' + (fund.aum_cr / 1000).toFixed(1) + 'K Cr' : '—'], ['Min SIP', fund.min_sip ? '₹' + fund.min_sip : '—']].map(([label, val]) => (
                     <div key={label} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ color: '#5a544a' }}>{label}</span>
-                      <span style={{ color: '#c9c2b4', fontWeight: 600 }}>{val}</span>
+                      <span style={{ color: 'var(--text4)' }}>{label}</span>
+                      <span style={{ color: 'var(--text2)', fontWeight: 600 }}>{val}</span>
                     </div>
                   ))}
                 </div>
@@ -111,8 +111,8 @@ export default function Comparator() {
       {selectedCodes.length === 0 && (
         <div style={{ textAlign: 'center', padding: '60px 0' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>📊</div>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>Search for funds above to start comparing</p>
-          <p style={{ fontSize: 13, color: '#5a544a', marginTop: 6 }}>You can compare up to 5 funds at once</p>
+          <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)', fontFamily: 'Georgia, serif' }}>Search for funds above to start comparing</p>
+          <p style={{ fontSize: 13, color: 'var(--text4)', marginTop: 6 }}>You can compare up to 5 funds at once</p>
         </div>
       )}
     </div>

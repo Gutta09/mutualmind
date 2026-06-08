@@ -54,8 +54,8 @@ export default function Funds() {
 
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif', margin: '0 0 4px' }}>Browse Funds</h1>
-        <p style={{ fontSize: 13, color: '#5a544a', margin: 0 }}>
+        <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text)', fontFamily: 'Georgia, serif', margin: '0 0 4px' }}>Browse Funds</h1>
+        <p style={{ fontSize: 13, color: 'var(--text4)', margin: 0 }}>
           {loading ? 'Loading…' : `${filtered.length.toLocaleString()} funds`}
           {!loading && filtered.length !== funds.length ? ` of ${funds.length.toLocaleString()} total` : ''}
           {' '} — all Direct Plan, Growth option
@@ -65,17 +65,17 @@ export default function Funds() {
       {/* Category guide */}
       {category === 'All' && !search && (
         <div style={{ marginBottom: 24 }}>
-          <p style={{ fontSize: 10, fontWeight: 700, color: '#5a544a', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 12 }}>New to mutual funds? Start here</p>
+          <p style={{ fontSize: 10, fontWeight: 700, color: 'var(--text4)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 12 }}>New to mutual funds? Start here</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: 12 }}>
             {CATEGORY_GUIDE.map(c => (
               <button key={c.key} onClick={() => applyFilter(() => setCategory(c.key))}
-                style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: `1px solid ${c.color}30`, borderRadius: 16, padding: '14px 12px', textAlign: 'left', cursor: 'pointer', transition: 'border-color .2s' }}
+                style={{ background: 'var(--panel-grad)', border: `1px solid ${c.color}30`, borderRadius: 16, padding: '14px 12px', textAlign: 'left', cursor: 'pointer', transition: 'border-color .2s' }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = c.color + '70'}
                 onMouseLeave={e => e.currentTarget.style.borderColor = c.color + '30'}>
                 <div style={{ fontSize: 22, marginBottom: 6 }}>{c.emoji}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#e8e2d4', marginBottom: 3 }}>{c.key}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 3 }}>{c.key}</div>
                 <span style={{ fontSize: 10, background: c.color + '18', color: c.color, borderRadius: 999, padding: '2px 7px', fontWeight: 700 }}>{c.risk}</span>
-                <p style={{ fontSize: 11, color: '#5a544a', lineHeight: 1.5, margin: '6px 0 0' }}>{c.desc}</p>
+                <p style={{ fontSize: 11, color: 'var(--text4)', lineHeight: 1.5, margin: '6px 0 0' }}>{c.desc}</p>
               </button>
             ))}
           </div>
@@ -83,20 +83,20 @@ export default function Funds() {
       )}
 
       {/* Search + filters */}
-      <div style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 16, padding: 16, marginBottom: 24 }}>
+      <div style={{ background: 'var(--panel-grad)', border: '1px solid var(--border)', borderRadius: 16, padding: 16, marginBottom: 24 }}>
         <input
           type="text"
           placeholder='Search by fund name or AMC (e.g. "Mirae" or "Nifty 50")…'
           value={search}
           onChange={e => applyFilter(() => setSearch(e.target.value))}
-          style={{ background: '#1a1610', border: '1px solid #2a2620', borderRadius: 10, padding: '10px 14px', color: '#e8e2d4', fontSize: 14, outline: 'none', width: '100%', marginBottom: 12 }}
+          style={{ background: 'var(--card-inner)', border: '1px solid var(--border2)', borderRadius: 10, padding: '10px 14px', color: 'var(--text)', fontSize: 14, outline: 'none', width: '100%', marginBottom: 12 }}
         />
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
           {/* Active category chip */}
           {category !== 'All' && (
             <button onClick={() => applyFilter(() => setCategory('All'))}
-              style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#e0aa3e', color: '#0d0b07', fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 999, border: 'none', cursor: 'pointer' }}>
+              style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#e0aa3e', color: 'var(--on-accent)', fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 999, border: 'none', cursor: 'pointer' }}>
               {category} ✕
             </button>
           )}
@@ -105,7 +105,7 @@ export default function Funds() {
           <div style={{ display: 'flex', gap: 6 }}>
             {['All', 'Conservative', 'Moderate', 'Aggressive'].map(r => (
               <button key={r} onClick={() => applyFilter(() => setRisk(r))}
-                style={{ padding: '5px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, border: 'none', cursor: 'pointer', background: risk === r ? '#e8e2d4' : '#1c1810', color: risk === r ? '#0d0b07' : '#8a8174', transition: 'all .15s' }}>
+                style={{ padding: '5px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, border: 'none', cursor: 'pointer', background: risk === r ? 'var(--text)' : 'var(--card-inner)', color: risk === r ? 'var(--bg)' : 'var(--text3)', transition: 'all .15s' }}>
                 {r === 'All' ? 'All Risk' : r}
               </button>
             ))}
@@ -113,10 +113,10 @@ export default function Funds() {
 
           {/* Sort */}
           <div style={{ display: 'flex', gap: 6, marginLeft: 'auto', alignItems: 'center' }}>
-            <span style={{ fontSize: 11, color: '#5a544a' }}>Sort:</span>
+            <span style={{ fontSize: 11, color: 'var(--text4)' }}>Sort:</span>
             {[['name','A–Z'],['return1y','1Y Return'],['return3y','3Y Return'],['er','Low Cost']].map(([v, l]) => (
               <button key={v} onClick={() => setSort(v)}
-                style={{ padding: '5px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, border: 'none', cursor: 'pointer', background: sort === v ? '#e0aa3e' : '#1c1810', color: sort === v ? '#0d0b07' : '#8a8174', transition: 'all .15s' }}>
+                style={{ padding: '5px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, border: 'none', cursor: 'pointer', background: sort === v ? '#e0aa3e' : 'var(--card-inner)', color: sort === v ? 'var(--bg)' : 'var(--text3)', transition: 'all .15s' }}>
                 {l}
               </button>
             ))}
@@ -125,10 +125,10 @@ export default function Funds() {
 
         {/* Category chips */}
         {(search || category === 'All') && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 12, paddingTop: 12, borderTop: '1px solid #1e1b15' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border3)' }}>
             {['All','Large Cap','Mid Cap','Small Cap','Flexi Cap','Multi Cap','Index','ELSS','Thematic','Focused','Balanced Advantage','Aggressive Hybrid'].map(c => (
               <button key={c} onClick={() => applyFilter(() => setCategory(c))}
-                style={{ padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, border: '1px solid', cursor: 'pointer', transition: 'all .15s', background: category === c ? 'rgba(224,170,62,.15)' : 'transparent', color: category === c ? '#e0aa3e' : '#5a544a', borderColor: category === c ? 'rgba(224,170,62,.3)' : '#25211a' }}>
+                style={{ padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, border: '1px solid', cursor: 'pointer', transition: 'all .15s', background: category === c ? 'rgba(224,170,62,.15)' : 'transparent', color: category === c ? '#e0aa3e' : 'var(--text4)', borderColor: category === c ? 'rgba(224,170,62,.3)' : 'var(--border)' }}>
                 {c}
               </button>
             ))}
@@ -140,14 +140,14 @@ export default function Funds() {
       {loading && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14 }}>
           {[...Array(9)].map((_, i) => (
-            <div key={i} style={{ height: 120, background: 'linear-gradient(160deg,#16130d,#100d08)', borderRadius: 16, border: '1px solid #1e1b15', opacity: 0.5 }} />
+            <div key={i} style={{ height: 120, background: 'var(--panel-grad)', borderRadius: 16, border: '1px solid var(--border3)', opacity: 0.5 }} />
           ))}
         </div>
       )}
 
       {/* Error */}
       {error && (
-        <div style={{ background: '#1a0f0f', border: '1px solid #5a2020', borderRadius: 16, padding: 20, fontSize: 13, color: '#e7625f' }}>
+        <div style={{ background: 'var(--danger-bg)', border: '1px solid #5a2020', borderRadius: 16, padding: 20, fontSize: 13, color: '#e7625f' }}>
           Failed to load funds. Please refresh the page.
         </div>
       )}
@@ -156,10 +156,10 @@ export default function Funds() {
       {!loading && filtered.length === 0 && (
         <div style={{ textAlign: 'center', padding: '60px 0' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🔍</div>
-          <p style={{ fontSize: 18, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>No funds found</p>
-          <p style={{ fontSize: 13, color: '#5a544a', marginTop: 4, marginBottom: 20 }}>Try a different search or clear your filters</p>
+          <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', fontFamily: 'Georgia, serif' }}>No funds found</p>
+          <p style={{ fontSize: 13, color: 'var(--text4)', marginTop: 4, marginBottom: 20 }}>Try a different search or clear your filters</p>
           <button onClick={() => { setSearch(''); setCategory('All'); setRisk('All') }}
-            style={{ background: '#e0aa3e', color: '#0d0b07', border: 'none', borderRadius: 11, padding: '11px 20px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+            style={{ background: '#e0aa3e', color: 'var(--on-accent)', border: 'none', borderRadius: 11, padding: '11px 20px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
             Clear all filters
           </button>
         </div>
@@ -170,17 +170,17 @@ export default function Funds() {
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14 }}>
             {paginated.map((fund, idx) => {
-              const cc = CAT_COLOR[fund.category] || '#8a8174'
-              const rc = RISK_COLOR[fund.risk_label] || '#8a8174'
+              const cc = CAT_COLOR[fund.category] || 'var(--text3)'
+              const rc = RISK_COLOR[fund.risk_label] || 'var(--text3)'
               const name = fund.scheme_name.split(' - ')[0]
               return (
                 <Link key={fund.scheme_code} to={`/fund/${fund.scheme_code}`} className="card-rise"
-                  style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 16, padding: 16, textDecoration: 'none', display: 'block', transition: 'border-color .2s', animationDelay: `${(idx % 24) * 30}ms` }}
+                  style={{ background: 'var(--panel-grad)', border: '1px solid var(--border)', borderRadius: 16, padding: 16, textDecoration: 'none', display: 'block', transition: 'border-color .2s', animationDelay: `${(idx % 24) * 30}ms` }}
                   onMouseEnter={e => e.currentTarget.style.borderColor = '#e0aa3e40'}
-                  onMouseLeave={e => e.currentTarget.style.borderColor = '#25211a'}>
+                  onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}>
 
-                  <p style={{ fontSize: 10, color: '#5a544a', margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fund.fund_house}</p>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, color: '#e8e2d4', lineHeight: 1.4, margin: '0 0 10px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                  <p style={{ fontSize: 10, color: 'var(--text4)', margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fund.fund_house}</p>
+                  <h3 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', lineHeight: 1.4, margin: '0 0 10px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     {name}
                   </h3>
 
@@ -192,14 +192,14 @@ export default function Funds() {
                     </span>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, background: '#0d0b07', borderRadius: 10, padding: 10 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, background: 'var(--bg)', borderRadius: 10, padding: 10 }}>
                     {[['1Y', fund.returns_1y], ['3Y', fund.returns_3y], ['ER', fund.expense_ratio != null ? fund.expense_ratio + '%' : null]].map(([label, val]) => {
                       const isReturn = label !== 'ER'
-                      const color = val == null ? '#3a352c' : isReturn ? (parseFloat(val) >= 0 ? '#7fb069' : '#e7625f') : '#c9c2b4'
+                      const color = val == null ? 'var(--muted)' : isReturn ? (parseFloat(val) >= 0 ? '#7fb069' : '#e7625f') : 'var(--text2)'
                       return (
                         <div key={label} style={{ textAlign: 'center' }}>
                           <div style={{ fontSize: 12, fontWeight: 700, color }}>{val != null ? (isReturn ? `${parseFloat(val) > 0 ? '+' : ''}${val}%` : val) : '—'}</div>
-                          <div style={{ fontSize: 10, color: '#5a544a', marginTop: 1 }}>{label}</div>
+                          <div style={{ fontSize: 10, color: 'var(--text4)', marginTop: 1 }}>{label}</div>
                         </div>
                       )
                     })}
@@ -213,14 +213,14 @@ export default function Funds() {
           {totalPages > 1 && (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, paddingTop: 24 }}>
               <button onClick={() => setPage(p => Math.max(1, p-1))} disabled={page === 1}
-                style={{ padding: '8px 18px', fontSize: 13, borderRadius: 10, border: '1px solid #25211a', background: page === 1 ? 'transparent' : '#16130d', color: page === 1 ? '#3a352c' : '#c9c2b4', cursor: page === 1 ? 'default' : 'pointer', fontWeight: 600 }}>
+                style={{ padding: '8px 18px', fontSize: 13, borderRadius: 10, border: '1px solid var(--border)', background: page === 1 ? 'transparent' : 'var(--card)', color: page === 1 ? 'var(--muted)' : 'var(--text2)', cursor: page === 1 ? 'default' : 'pointer', fontWeight: 600 }}>
                 ← Previous
               </button>
-              <span style={{ fontSize: 12, color: '#5a544a', fontWeight: 500 }}>
-                Page {page} of {totalPages} <span style={{ color: '#3a352c' }}>({filtered.length} funds)</span>
+              <span style={{ fontSize: 12, color: 'var(--text4)', fontWeight: 500 }}>
+                Page {page} of {totalPages} <span style={{ color: 'var(--muted)' }}>({filtered.length} funds)</span>
               </span>
               <button onClick={() => setPage(p => Math.min(totalPages, p+1))} disabled={page === totalPages}
-                style={{ padding: '8px 18px', fontSize: 13, borderRadius: 10, border: '1px solid #25211a', background: page === totalPages ? 'transparent' : '#16130d', color: page === totalPages ? '#3a352c' : '#c9c2b4', cursor: page === totalPages ? 'default' : 'pointer', fontWeight: 600 }}>
+                style={{ padding: '8px 18px', fontSize: 13, borderRadius: 10, border: '1px solid var(--border)', background: page === totalPages ? 'transparent' : 'var(--card)', color: page === totalPages ? 'var(--muted)' : 'var(--text2)', cursor: page === totalPages ? 'default' : 'pointer', fontWeight: 600 }}>
                 Next →
               </button>
             </div>

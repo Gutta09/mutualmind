@@ -10,8 +10,8 @@ export default function ReturnsTable({ funds = [] }) {
     <div style={{ overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
         <thead>
-          <tr style={{ borderBottom: '1px solid #25211a' }}>
-            <th style={{ textAlign: 'left', padding: '8px 12px', color: '#5a544a', fontWeight: 600 }}>Period</th>
+          <tr style={{ borderBottom: '1px solid var(--border)' }}>
+            <th style={{ textAlign: 'left', padding: '8px 12px', color: 'var(--text4)', fontWeight: 600 }}>Period</th>
             {funds.map((f, i) => (
               <th key={i} style={{ textAlign: 'right', padding: '8px 12px', fontWeight: 700, color: COLORS[i % COLORS.length] }}>
                 {f.scheme_name?.split(' - ')[0]?.slice(0, 18)}
@@ -28,13 +28,13 @@ export default function ReturnsTable({ funds = [] }) {
 
             return (
               <tr key={period} style={{ borderBottom: '1px solid #1e1b15' }}>
-                <td style={{ padding: '9px 12px', color: '#8a8174', fontWeight: 600 }}>{PERIOD_LABELS[period]}</td>
+                <td style={{ padding: '9px 12px', color: 'var(--text3)', fontWeight: 600 }}>{PERIOD_LABELS[period]}</td>
                 {values.map((v, i) => (
                   <td key={i} style={{ textAlign: 'right', padding: '9px 12px' }}>
                     {v == null ? (
-                      <span style={{ color: '#3a352c' }}>—</span>
+                      <span style={{ color: 'var(--muted)' }}>—</span>
                     ) : (
-                      <span style={{ fontWeight: 700, color: v === best && best !== worst ? '#7fb069' : v === worst && best !== worst ? '#e7625f' : '#c9c2b4' }}>
+                      <span style={{ fontWeight: 700, color: v === best && best !== worst ? '#7fb069' : v === worst && best !== worst ? '#e7625f' : 'var(--text2)' }}>
                         {v > 0 ? '+' : ''}{v.toFixed(2)}%
                       </span>
                     )}
