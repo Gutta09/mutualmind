@@ -4,8 +4,7 @@ import {
 } from 'recharts'
 import { indexedNAV } from '../../utils/navUtils'
 import { useMemo } from 'react'
-
-const COLORS = ['#6366f1', '#f59e0b', '#10b981', '#f43f5e', '#8b5cf6']
+import { COLORS, tooltipStyle } from '../../utils/theme'
 
 function mergeNavSeries(funds) {
   if (!funds.length) return []
@@ -23,10 +22,10 @@ function mergeNavSeries(funds) {
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-white border border-slate-200 rounded-lg shadow-lg p-3 text-xs">
-      <p className="text-slate-500 mb-1">{label}</p>
+    <div style={tooltipStyle}>
+      <p style={{ color: '#5a544a', marginBottom: 6, fontSize: 11 }}>{label}</p>
       {payload.map((entry, i) => (
-        <p key={i} style={{ color: entry.color }} className="font-semibold">
+        <p key={i} style={{ color: entry.color, fontWeight: 700, margin: '2px 0' }}>
           {entry.name}: {entry.value?.toFixed(2)}
         </p>
       ))}
@@ -39,38 +38,29 @@ export default function NAVLineChart({ funds = [] }) {
 
   if (!chartData.length) {
     return (
-      <div className="flex items-center justify-center h-64 text-slate-400 text-sm">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 240, color: '#5a544a', fontSize: 13 }}>
         No NAV data available
       </div>
     )
   }
 
-  // Show at most 8 x-axis labels
   const tickInterval = Math.max(1, Math.floor(chartData.length / 8))
 
   return (
     <ResponsiveContainer width="100%" height={320}>
       <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-        <defs>
-          {funds.map((_, i) => (
-            <linearGradient key={i} id={`grad_${i}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={COLORS[i]} stopOpacity={0.15} />
-              <stop offset="95%" stopColor={COLORS[i]} stopOpacity={0} />
-            </linearGradient>
-          ))}
-        </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+        <CartesianGrid strokeDasharray="3 3" stroke="#1e1b15" />
         <XAxis
           dataKey="date"
           tickFormatter={d => d?.slice(0, 7)}
           interval={tickInterval}
-          tick={{ fontSize: 11, fill: '#94a3b8' }}
+          tick={{ fontSize: 11, fill: '#5a544a' }}
           axisLine={false}
           tickLine={false}
         />
         <YAxis
           domain={['auto', 'auto']}
-          tick={{ fontSize: 11, fill: '#94a3b8' }}
+          tick={{ fontSize: 11, fill: '#5a544a' }}
           axisLine={false}
           tickLine={false}
           tickFormatter={v => `${v}`}
@@ -78,21 +68,21 @@ export default function NAVLineChart({ funds = [] }) {
         />
         <Tooltip content={<CustomTooltip />} />
         <Legend
-          formatter={(value, entry) => {
+          formatter={(value) => {
             const idx = parseInt(value.split('_')[1])
-            return <span className="text-xs text-slate-600">{funds[idx]?.scheme_name?.split(' - ')[0]}</span>
+            return <span style={{ fontSize: 12, color: '#8a8174' }}>{funds[idx]?.scheme_name?.split(' - ')[0]?.slice(0, 30)}</span>
           }}
         />
-        <ReferenceLine y={100} stroke="#94a3b8" strokeDasharray="4 4" label={{ value: 'Base 100', fill: '#94a3b8', fontSize: 10 }} />
+        <ReferenceLine y={100} stroke="#3a352c" strokeDasharray="4 4" label={{ value: 'Base 100', fill: '#3a352c', fontSize: 10 }} />
         {funds.map((_, i) => (
           <Line
             key={i}
             type="monotone"
             dataKey={`fund_${i}`}
-            stroke={COLORS[i]}
+            stroke={COLORS[i % COLORS.length]}
             strokeWidth={2}
             dot={false}
-            activeDot={{ r: 4 }}
+            activeDot={{ r: 4, fill: COLORS[i % COLORS.length] }}
           />
         ))}
       </LineChart>

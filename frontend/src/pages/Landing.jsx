@@ -1,156 +1,125 @@
 import { Link } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
-
-const STATS = [
-  { value: '900+', label: 'Funds tracked' },
-  { value: '15+', label: 'Years of NAV data' },
-  { value: 'Free', label: 'No account needed' },
-]
+import { Sparkles, TrendingUp, BarChart2, Calculator, Shield, ArrowRight, Activity } from 'lucide-react'
 
 const DIFFERENTIATORS = [
-  {
-    icon: '🔵',
-    title: 'Portfolio Overlap',
-    highlight: 'No other free tool has this',
-    desc: 'See exactly which stocks your funds share. Stop accidentally doubling your Reliance or HDFC Bank exposure.',
-  },
-  {
-    icon: '📊',
-    title: 'Indexed NAV Charts',
-    highlight: 'Raw NAV is misleading',
-    desc: 'We normalize all funds to a base of 100 so you compare actual returns — not rupee prices that mean nothing side-by-side.',
-  },
-  {
-    icon: '🧠',
-    title: 'AI in Plain English',
-    highlight: 'Not star ratings — reasoning',
-    desc: 'Groq AI reads your risk profile and explains in one sentence why each fund fits you. No jargon.',
-  },
-  {
-    icon: '📰',
-    title: 'News Sentiment',
-    highlight: 'Linked to actual holdings',
-    desc: "We analyze news about your fund's top holdings — not generic AMC press releases. Bullish/Bearish/Neutral, scored per article.",
-  },
+  { icon: <BarChart2 size={20} />, title: 'Portfolio Overlap', highlight: 'No other free tool does this', desc: 'See exactly which stocks your funds share. Stop accidentally doubling your Reliance or HDFC Bank exposure.' },
+  { icon: <TrendingUp size={20} />, title: 'Indexed NAV Charts', highlight: 'Raw NAV is misleading', desc: 'We normalize all funds to a base of 100 so you compare actual returns — not rupee prices that mean nothing side-by-side.' },
+  { icon: <Sparkles size={20} />, title: 'AI in Plain English', highlight: 'Not star ratings — reasoning', desc: 'Groq AI reads your risk profile and explains in one sentence why each fund fits you. No jargon.' },
+  { icon: <Shield size={20} />, title: 'News Sentiment', highlight: 'Linked to actual holdings', desc: "We analyze news about your fund's top holdings — not generic AMC press releases. Bullish/Bearish/Neutral, scored per article." },
+]
+
+const STATS = [
+  { val: '987', label: 'Direct-Plan Funds' },
+  { val: 'AI', label: 'Groq-Powered Picks' },
+  { val: '5', label: 'Funds Compared' },
+  { val: 'Free', label: 'No Account Needed' },
 ]
 
 export default function Landing() {
   const { riskProfile } = useApp()
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
-        <span className="font-bold text-lg tracking-tight text-white">
-          Mutual<span className="text-indigo-400">Mind</span>
-        </span>
-        <div className="flex gap-3">
-          <Link to="/funds" className="text-sm text-slate-400 hover:text-white transition-colors px-3 py-1.5">
-            Browse Funds
-          </Link>
-          {riskProfile ? (
-            <Link to="/dashboard" className="text-sm bg-indigo-600 hover:bg-indigo-500 px-4 py-1.5 rounded-lg font-medium transition-colors">
-              Dashboard →
-            </Link>
-          ) : (
-            <Link to="/quiz" className="text-sm bg-indigo-600 hover:bg-indigo-500 px-4 py-1.5 rounded-lg font-medium transition-colors">
-              Start Free →
-            </Link>
-          )}
-        </div>
-      </nav>
+    <div style={{ minHeight: '100vh', background: '#0d0b07', color: '#e8e2d4' }}>
+
+      {/* Ambient glow */}
+      <div style={{ position: 'fixed', top: -300, left: '50%', transform: 'translateX(-50%)', width: 900, height: 700, background: 'radial-gradient(ellipse,rgba(224,170,62,.065),transparent 65%)', pointerEvents: 'none', zIndex: 0 }} />
 
       {/* Hero */}
-      <div className="max-w-5xl mx-auto px-6 pt-20 pb-24 text-center">
-        <div className="inline-flex items-center gap-2 bg-indigo-950 border border-indigo-800 text-indigo-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-8">
-          <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-          AI-powered · Indian Mutual Funds · 100% Free
-        </div>
+      <section style={{ maxWidth: 860, margin: '0 auto', padding: '80px 24px 60px', textAlign: 'center', position: 'relative', zIndex: 2 }}>
+        <div className="card-rise">
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(224,170,62,.1)', border: '1px solid rgba(224,170,62,.2)', borderRadius: 999, padding: '6px 16px', fontSize: 12, color: '#e0aa3e', fontWeight: 700, marginBottom: 28, letterSpacing: '.5px' }}>
+            <Activity size={11} /> AI-POWERED · INDIAN MUTUAL FUNDS · 100% FREE
+          </div>
 
-        <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight mb-6 tracking-tight">
-          Research mutual funds
-          <br />
-          <span className="text-indigo-400">the way professionals do</span>
-        </h1>
+          <h1 style={{ fontSize: 'clamp(36px,6vw,62px)', fontWeight: 700, fontFamily: 'Georgia, serif', lineHeight: 1.15, margin: '0 0 20px', color: '#e8e2d4' }}>
+            Research mutual funds<br />
+            <span style={{ color: '#e0aa3e' }}>the way professionals do</span>
+          </h1>
 
-        <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Compare normalized performance, visualize portfolio overlap, get AI-driven fund picks
-          tailored to your risk profile — all in one place, no account needed.
-        </p>
+          <p style={{ fontSize: 17, color: '#8a8174', maxWidth: 540, margin: '0 auto 36px', lineHeight: 1.65 }}>
+            Compare normalized performance, visualize portfolio overlap, get AI-driven fund picks tailored to your risk profile — all in one place, no account needed.
+          </p>
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center mb-16">
-          {riskProfile ? (
-            <Link to="/dashboard" className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-base shadow-lg shadow-indigo-900">
-              Go to Dashboard →
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            {riskProfile ? (
+              <Link to="/dashboard" style={{ background: '#e0aa3e', color: '#0d0b07', padding: '14px 30px', borderRadius: 12, fontWeight: 800, fontSize: 15, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                Go to Dashboard <ArrowRight size={16} />
+              </Link>
+            ) : (
+              <Link to="/quiz" style={{ background: '#e0aa3e', color: '#0d0b07', padding: '14px 30px', borderRadius: 12, fontWeight: 800, fontSize: 15, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                Get My Fund Picks <ArrowRight size={16} />
+              </Link>
+            )}
+            <Link to="/funds" style={{ background: '#1a1610', border: '1px solid #2a2620', color: '#c9c2b4', padding: '14px 24px', borderRadius: 12, fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
+              Browse 987 Funds
             </Link>
-          ) : (
-            <Link to="/quiz" className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-base shadow-lg shadow-indigo-900">
-              Get My Fund Picks (2 min) →
-            </Link>
-          )}
-          <Link to="/funds" className="bg-slate-800 hover:bg-slate-700 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-base border border-slate-700">
-            Browse 900+ Funds
-          </Link>
+          </div>
         </div>
+      </section>
 
-        {/* Stats bar */}
-        <div className="inline-flex gap-8 border border-slate-800 bg-slate-900 rounded-2xl px-8 py-4">
-          {STATS.map(s => (
-            <div key={s.label} className="text-center">
-              <div className="text-2xl font-bold text-white">{s.value}</div>
-              <div className="text-xs text-slate-500 mt-0.5">{s.label}</div>
+      {/* Stats */}
+      <section style={{ maxWidth: 860, margin: '0 auto', padding: '0 24px 60px', position: 'relative', zIndex: 2 }}>
+        <div className="card-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 20 }}>
+          {STATS.map((s, i) => (
+            <div key={i} style={{ padding: '24px 16px', textAlign: 'center', borderRight: i < STATS.length - 1 ? '1px solid #25211a' : 'none' }}>
+              <div style={{ fontSize: 28, fontWeight: 800, color: '#e0aa3e', fontFamily: 'Georgia, serif' }}>{s.val}</div>
+              <div style={{ fontSize: 11, color: '#5a544a', marginTop: 4, letterSpacing: '.5px' }}>{s.label}</div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Why different section */}
-      <div className="border-t border-slate-800 bg-slate-900">
-        <div className="max-w-5xl mx-auto px-6 py-20">
-          <div className="text-center mb-14">
-            <p className="text-xs font-semibold text-indigo-400 tracking-widest uppercase mb-3">Why MutualMind</p>
-            <h2 className="text-3xl font-bold text-white">
-              What no other free Indian MF tool does
-            </h2>
+      {/* Why different */}
+      <section style={{ borderTop: '1px solid #1a1610', background: '#0e0c08' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '60px 24px', position: 'relative', zIndex: 2 }}>
+          <div style={{ textAlign: 'center', marginBottom: 36 }}>
+            <div style={{ fontSize: 11, color: '#e0aa3e', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Why MutualMind</div>
+            <h2 style={{ fontSize: 28, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif', margin: 0 }}>What no other free Indian MF tool does</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {DIFFERENTIATORS.map(d => (
-              <div key={d.title} className="bg-slate-800 border border-slate-700 rounded-2xl p-6 hover:border-indigo-700 transition-colors">
-                <div className="flex items-start gap-4">
-                  <span className="text-3xl">{d.icon}</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 16 }}>
+            {DIFFERENTIATORS.map((d, i) => (
+              <div key={i} className="card-rise" style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 18, padding: 22, animationDelay: `${i*70}ms`, transition: 'border-color .2s' }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = '#e0aa3e40'}
+                onMouseLeave={e => e.currentTarget.style.borderColor = '#25211a'}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 11, background: 'rgba(224,170,62,.1)', display: 'grid', placeItems: 'center', color: '#e0aa3e', flexShrink: 0 }}>
+                    {d.icon}
+                  </div>
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-bold text-white text-lg">{d.title}</h3>
-                      <span className="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-2 py-0.5 rounded-full font-medium">
-                        {d.highlight}
-                      </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif', margin: 0 }}>{d.title}</h3>
+                      <span style={{ fontSize: 10, background: 'rgba(224,170,62,.1)', border: '1px solid rgba(224,170,62,.2)', color: '#e0aa3e', borderRadius: 999, padding: '3px 8px', fontWeight: 700, whiteSpace: 'nowrap' }}>{d.highlight}</span>
                     </div>
-                    <p className="text-slate-400 text-sm leading-relaxed">{d.desc}</p>
+                    <p style={{ fontSize: 13, color: '#8a8174', lineHeight: 1.6, margin: 0 }}>{d.desc}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
       {/* CTA */}
-      <div className="border-t border-slate-800 bg-slate-950">
-        <div className="max-w-2xl mx-auto px-6 py-20 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to invest smarter?</h2>
-          <p className="text-slate-400 mb-8">Take a 2-minute quiz. Get a personalized risk profile and AI-curated fund picks instantly.</p>
-          {riskProfile ? (
-            <Link to="/dashboard" className="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-10 py-4 rounded-xl transition-colors text-base">
-              Go to Dashboard →
-            </Link>
-          ) : (
-            <Link to="/quiz" className="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-10 py-4 rounded-xl transition-colors text-base">
-              Start Risk Quiz →
-            </Link>
-          )}
+      <section style={{ borderTop: '1px solid #1a1610' }}>
+        <div style={{ maxWidth: 680, margin: '0 auto', padding: '60px 24px 100px', textAlign: 'center', position: 'relative', zIndex: 2 }}>
+          <div className="card-rise" style={{ background: 'linear-gradient(160deg,#1a1508,#110e09)', border: '1px solid rgba(224,170,62,.2)', borderRadius: 24, padding: '48px 32px' }}>
+            <h2 style={{ fontSize: 28, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif', margin: '0 0 12px' }}>Ready to invest smarter?</h2>
+            <p style={{ fontSize: 14, color: '#5a544a', margin: '0 0 28px', lineHeight: 1.65 }}>Take our 2-minute risk quiz and get an AI-curated portfolio of direct-plan mutual funds — completely free.</p>
+            {riskProfile ? (
+              <Link to="/dashboard" style={{ background: '#e0aa3e', color: '#0d0b07', padding: '15px 36px', borderRadius: 12, fontWeight: 800, fontSize: 15, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                Go to Dashboard <ArrowRight size={16} />
+              </Link>
+            ) : (
+              <Link to="/quiz" style={{ background: '#e0aa3e', color: '#0d0b07', padding: '15px 36px', borderRadius: 12, fontWeight: 800, fontSize: 15, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                Start Risk Quiz <ArrowRight size={16} />
+              </Link>
+            )}
+            <div style={{ fontSize: 11, color: '#3a352c', marginTop: 16 }}>No account required · Takes under 2 minutes</div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

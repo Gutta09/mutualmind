@@ -1,12 +1,13 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
+import { Activity } from 'lucide-react'
 
 const NAV_LINKS = [
-  { to: '/dashboard', label: 'Dashboard', icon: '🏠' },
-  { to: '/funds',     label: 'Funds',     icon: '📋' },
-  { to: '/compare',  label: 'Compare',   icon: '📊' },
-  { to: '/overlap',  label: 'Overlap',   icon: '🔵' },
-  { to: '/calculator', label: 'SIP Calc', icon: '🎯' },
+  { to: '/dashboard', label: 'Dashboard' },
+  { to: '/funds',     label: 'Funds'     },
+  { to: '/compare',  label: 'Compare'   },
+  { to: '/overlap',  label: 'Overlap'   },
+  { to: '/calculator', label: 'SIP'     },
 ]
 
 export default function Navbar() {
@@ -14,35 +15,42 @@ export default function Navbar() {
   const { pathname } = useLocation()
 
   return (
-    <nav className="bg-white border-b border-slate-100 sticky top-0 z-40 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
-        <Link to="/" className="font-extrabold text-slate-900 text-lg tracking-tight">
-          Mutual<span className="text-indigo-600">Mind</span>
+    <nav style={{ background: '#0d0b07', borderBottom: '1px solid #25211a', position: 'sticky', top: 0, zIndex: 40 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
+
+        {/* Logo */}
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+          <div style={{ width: 32, height: 32, borderRadius: 9, background: 'linear-gradient(135deg,#f0c14b,#d99a4e)', display: 'grid', placeItems: 'center', boxShadow: '0 2px 12px rgba(224,170,62,.3)' }}>
+            <Activity size={16} strokeWidth={2.5} color="#0d0b07" />
+          </div>
+          <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: '.5px', color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>
+            MUTUAL<span style={{ color: '#e0aa3e' }}>MIND</span>
+          </span>
         </Link>
 
-        <div className="flex items-center gap-0.5">
-          {NAV_LINKS.map(link => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                pathname.startsWith(link.to)
-                  ? 'bg-indigo-50 text-indigo-700 font-semibold'
-                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <span className="hidden sm:inline">{link.label}</span>
-              <span className="sm:hidden">{link.icon}</span>
-            </Link>
-          ))}
+        {/* Nav links */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {NAV_LINKS.map(link => {
+            const active = pathname.startsWith(link.to)
+            return (
+              <Link key={link.to} to={link.to} style={{
+                padding: '6px 12px', borderRadius: 8, fontSize: 13, fontWeight: active ? 600 : 400,
+                color: active ? '#e0aa3e' : '#8a8174', textDecoration: 'none',
+                background: active ? 'rgba(224,170,62,.08)' : 'transparent',
+                transition: 'all .15s',
+              }}>
+                {link.label}
+              </Link>
+            )
+          })}
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Right */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {riskProfile ? (
             <RiskBadge profile={riskProfile} />
           ) : (
-            <Link to="/quiz"
-              className="bg-indigo-600 text-white text-sm font-semibold px-4 py-1.5 rounded-lg hover:bg-indigo-700 transition-colors">
+            <Link to="/quiz" style={{ background: '#e0aa3e', color: '#0d0b07', fontSize: 12, fontWeight: 700, padding: '7px 16px', borderRadius: 8, textDecoration: 'none', letterSpacing: '.3px' }}>
               Take Quiz
             </Link>
           )}
@@ -53,14 +61,10 @@ export default function Navbar() {
 }
 
 export function RiskBadge({ profile, size = 'sm' }) {
-  const styles = {
-    Conservative: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
-    Moderate:     'bg-amber-50 text-amber-700 border border-amber-200',
-    Aggressive:   'bg-red-50 text-red-700 border border-red-200',
-  }
-  const sz = size === 'lg' ? 'px-3 py-1 text-sm' : 'px-2.5 py-1 text-xs'
+  const colors = { Conservative: '#7fb069', Moderate: '#e0aa3e', Aggressive: '#e7625f' }
+  const c = colors[profile] || '#8a8174'
   return (
-    <span className={`${sz} rounded-full font-semibold ${styles[profile] || 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
+    <span style={{ fontSize: size === 'lg' ? 13 : 11, fontWeight: 700, padding: size === 'lg' ? '6px 14px' : '4px 10px', borderRadius: 999, border: `1px solid ${c}40`, color: c, background: `${c}12` }}>
       {profile}
     </span>
   )

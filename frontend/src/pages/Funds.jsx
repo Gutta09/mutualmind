@@ -3,45 +3,30 @@ import { Link } from 'react-router-dom'
 import { useFunds } from '../hooks/useFunds'
 
 const CATEGORY_GUIDE = [
-  { key: 'Large Cap',  emoji: '🏢', color: 'bg-blue-50 border-blue-200 text-blue-900',   tag: 'bg-blue-100 text-blue-800',   risk: 'Lower Risk',  desc: "India's top 100 biggest companies. Stable, reliable growth." },
-  { key: 'Index',      emoji: '📊', color: 'bg-cyan-50 border-cyan-200 text-cyan-900',    tag: 'bg-cyan-100 text-cyan-800',    risk: 'Low Risk',    desc: 'Tracks Nifty 50 or Sensex. Simple, low cost, great for beginners.' },
-  { key: 'Flexi Cap',  emoji: '🔄', color: 'bg-indigo-50 border-indigo-200 text-indigo-900', tag: 'bg-indigo-100 text-indigo-800', risk: 'Medium Risk', desc: 'Manager picks across all company sizes. Flexible and diversified.' },
-  { key: 'Mid Cap',    emoji: '📈', color: 'bg-violet-50 border-violet-200 text-violet-900', tag: 'bg-violet-100 text-violet-800', risk: 'Medium-High', desc: 'Ranks 101–250. Higher growth potential than large cap.' },
-  { key: 'ELSS',       emoji: '💰', color: 'bg-teal-50 border-teal-200 text-teal-900',    tag: 'bg-teal-100 text-teal-800',    risk: 'Medium-High', desc: 'Saves up to ₹46,800/year in tax. 3-year lock-in.' },
-  { key: 'Small Cap',  emoji: '🌱', color: 'bg-rose-50 border-rose-200 text-rose-900',    tag: 'bg-rose-100 text-rose-800',    risk: 'High Risk',   desc: 'Ranks 251+. Highest growth potential, most volatile.' },
+  { key: 'Large Cap',  emoji: '🏢', risk: 'Lower Risk',   desc: "India's top 100 biggest companies. Stable, reliable growth.", color: '#3b82f6' },
+  { key: 'Index',      emoji: '📊', risk: 'Low Risk',     desc: 'Tracks Nifty 50 or Sensex. Simple, low cost, great for beginners.', color: '#06b6d4' },
+  { key: 'Flexi Cap',  emoji: '🔄', risk: 'Medium Risk',  desc: 'Manager picks across all company sizes. Flexible and diversified.', color: '#8b5cf6' },
+  { key: 'Mid Cap',    emoji: '📈', risk: 'Medium-High',  desc: 'Ranks 101–250. Higher growth potential than large cap.', color: '#a78bfa' },
+  { key: 'ELSS',       emoji: '💰', risk: 'Medium-High',  desc: 'Saves up to ₹46,800/year in tax. 3-year lock-in.', color: '#14b8a6' },
+  { key: 'Small Cap',  emoji: '🌱', risk: 'High Risk',    desc: 'Ranks 251+. Highest growth potential, most volatile.', color: '#ef4444' },
 ]
 
-const RISK_DOT = {
-  Conservative: 'bg-emerald-500',
-  Moderate:     'bg-amber-500',
-  Aggressive:   'bg-red-500',
+const CAT_COLOR = {
+  'Large Cap': '#3b82f6', 'Mid Cap': '#8b5cf6', 'Small Cap': '#ef4444',
+  'Flexi Cap': '#6366f1', 'Multi Cap': '#a855f7', 'Index': '#06b6d4',
+  'ELSS': '#14b8a6', 'Thematic': '#f97316', 'Focused': '#ec4899',
+  'Balanced Advantage': '#e0aa3e', 'Aggressive Hybrid': '#f59e0b',
 }
-const RISK_BADGE = {
-  Conservative: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
-  Moderate:     'bg-amber-50 text-amber-700 border border-amber-200',
-  Aggressive:   'bg-red-50 text-red-700 border border-red-200',
-}
-const CAT_TAG = {
-  'Large Cap': 'bg-blue-100 text-blue-700',
-  'Mid Cap': 'bg-violet-100 text-violet-700',
-  'Small Cap': 'bg-rose-100 text-rose-700',
-  'Flexi Cap': 'bg-indigo-100 text-indigo-700',
-  'Multi Cap': 'bg-purple-100 text-purple-700',
-  'Index': 'bg-cyan-100 text-cyan-700',
-  'ELSS': 'bg-teal-100 text-teal-700',
-  'Thematic': 'bg-orange-100 text-orange-700',
-  'Focused': 'bg-fuchsia-100 text-fuchsia-700',
-  'Balanced Advantage': 'bg-amber-100 text-amber-700',
-}
+const RISK_COLOR = { Conservative: '#7fb069', Moderate: '#e0aa3e', Aggressive: '#e7625f' }
 
 const PER_PAGE = 24
 
 export default function Funds() {
-  const [search, setSearch]       = useState('')
-  const [category, setCategory]   = useState('All')
-  const [risk, setRisk]           = useState('All')
-  const [page, setPage]           = useState(1)
-  const [sort, setSort]           = useState('name')
+  const [search, setSearch]     = useState('')
+  const [category, setCategory] = useState('All')
+  const [risk, setRisk]         = useState('All')
+  const [page, setPage]         = useState(1)
+  const [sort, setSort]         = useState('name')
 
   const { funds, loading, error } = useFunds()
 
@@ -65,88 +50,85 @@ export default function Funds() {
   function applyFilter(fn) { fn(); setPage(1) }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '28px 24px 60px', position: 'relative', zIndex: 2 }}>
 
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-extrabold text-slate-900">Browse Funds</h1>
-        <p className="text-slate-500 mt-1">
+      <div style={{ marginBottom: 24 }}>
+        <h1 style={{ fontSize: 28, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif', margin: '0 0 4px' }}>Browse Funds</h1>
+        <p style={{ fontSize: 13, color: '#5a544a', margin: 0 }}>
           {loading ? 'Loading…' : `${filtered.length.toLocaleString()} funds`}
           {!loading && filtered.length !== funds.length ? ` of ${funds.length.toLocaleString()} total` : ''}
           {' '} — all Direct Plan, Growth option
         </p>
       </div>
 
-      {/* Category guide cards — beginner oriented */}
+      {/* Category guide */}
       {category === 'All' && !search && (
-        <div>
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">New to mutual funds? Start here</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#5a544a', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 12 }}>New to mutual funds? Start here</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: 12 }}>
             {CATEGORY_GUIDE.map(c => (
               <button key={c.key} onClick={() => applyFilter(() => setCategory(c.key))}
-                className={`border-2 rounded-2xl p-3 text-left hover:shadow-md transition-all group ${c.color}`}>
-                <div className="text-2xl mb-1.5">{c.emoji}</div>
-                <div className="font-bold text-sm mb-0.5">{c.key}</div>
-                <div className={`text-xs font-semibold px-1.5 py-0.5 rounded-md inline-block mb-1.5 ${c.tag}`}>{c.risk}</div>
-                <p className="text-xs opacity-70 leading-snug">{c.desc}</p>
+                style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: `1px solid ${c.color}30`, borderRadius: 16, padding: '14px 12px', textAlign: 'left', cursor: 'pointer', transition: 'border-color .2s' }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = c.color + '70'}
+                onMouseLeave={e => e.currentTarget.style.borderColor = c.color + '30'}>
+                <div style={{ fontSize: 22, marginBottom: 6 }}>{c.emoji}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#e8e2d4', marginBottom: 3 }}>{c.key}</div>
+                <span style={{ fontSize: 10, background: c.color + '18', color: c.color, borderRadius: 999, padding: '2px 7px', fontWeight: 700 }}>{c.risk}</span>
+                <p style={{ fontSize: 11, color: '#5a544a', lineHeight: 1.5, margin: '6px 0 0' }}>{c.desc}</p>
               </button>
             ))}
           </div>
         </div>
       )}
 
-      {/* Search + filters bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
+      {/* Search + filters */}
+      <div style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 16, padding: 16, marginBottom: 24 }}>
         <input
           type="text"
-          placeholder="Search by fund name or AMC (e.g. &quot;Mirae&quot; or &quot;Nifty 50&quot;)…"
+          placeholder='Search by fund name or AMC (e.g. "Mirae" or "Nifty 50")…'
           value={search}
           onChange={e => applyFilter(() => setSearch(e.target.value))}
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 bg-slate-50 placeholder:text-slate-400"
+          style={{ background: '#1a1610', border: '1px solid #2a2620', borderRadius: 10, padding: '10px 14px', color: '#e8e2d4', fontSize: 14, outline: 'none', width: '100%', marginBottom: 12 }}
         />
 
-        <div className="flex flex-wrap gap-2 items-center">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
           {/* Active category chip */}
           {category !== 'All' && (
             <button onClick={() => applyFilter(() => setCategory('All'))}
-              className="flex items-center gap-1 bg-indigo-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+              style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#e0aa3e', color: '#0d0b07', fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 999, border: 'none', cursor: 'pointer' }}>
               {category} ✕
             </button>
           )}
 
           {/* Risk filter */}
-          <div className="flex gap-1">
-            {['All','Conservative','Moderate','Aggressive'].map(r => (
+          <div style={{ display: 'flex', gap: 6 }}>
+            {['All', 'Conservative', 'Moderate', 'Aggressive'].map(r => (
               <button key={r} onClick={() => applyFilter(() => setRisk(r))}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
-                  risk === r ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}>
+                style={{ padding: '5px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, border: 'none', cursor: 'pointer', background: risk === r ? '#e8e2d4' : '#1c1810', color: risk === r ? '#0d0b07' : '#8a8174', transition: 'all .15s' }}>
                 {r === 'All' ? 'All Risk' : r}
               </button>
             ))}
           </div>
 
-          <div className="flex gap-1 ml-auto">
-            <span className="text-xs text-slate-400 self-center mr-1">Sort:</span>
-            {[['name','A–Z'],['return1y','1Y Return'],['return3y','3Y Return'],['er','Low Cost']].map(([v,l]) => (
+          {/* Sort */}
+          <div style={{ display: 'flex', gap: 6, marginLeft: 'auto', alignItems: 'center' }}>
+            <span style={{ fontSize: 11, color: '#5a544a' }}>Sort:</span>
+            {[['name','A–Z'],['return1y','1Y Return'],['return3y','3Y Return'],['er','Low Cost']].map(([v, l]) => (
               <button key={v} onClick={() => setSort(v)}
-                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                  sort === v ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}>
+                style={{ padding: '5px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, border: 'none', cursor: 'pointer', background: sort === v ? '#e0aa3e' : '#1c1810', color: sort === v ? '#0d0b07' : '#8a8174', transition: 'all .15s' }}>
                 {l}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Category chips when searching */}
+        {/* Category chips */}
         {(search || category === 'All') && (
-          <div className="flex flex-wrap gap-1.5 pt-1 border-t border-slate-100">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 12, paddingTop: 12, borderTop: '1px solid #1e1b15' }}>
             {['All','Large Cap','Mid Cap','Small Cap','Flexi Cap','Multi Cap','Index','ELSS','Thematic','Focused','Balanced Advantage','Aggressive Hybrid'].map(c => (
               <button key={c} onClick={() => applyFilter(() => setCategory(c))}
-                className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
-                  category === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}>
+                style={{ padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, border: '1px solid', cursor: 'pointer', transition: 'all .15s', background: category === c ? 'rgba(224,170,62,.15)' : 'transparent', color: category === c ? '#e0aa3e' : '#5a544a', borderColor: category === c ? 'rgba(224,170,62,.3)' : '#25211a' }}>
                 {c}
               </button>
             ))}
@@ -154,83 +136,73 @@ export default function Funds() {
         )}
       </div>
 
-      {/* Fund grid */}
+      {/* Loading */}
       {loading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(9)].map((_,i) => (
-            <div key={i} className="h-28 bg-white rounded-2xl border border-slate-200 animate-pulse" />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14 }}>
+          {[...Array(9)].map((_, i) => (
+            <div key={i} style={{ height: 120, background: 'linear-gradient(160deg,#16130d,#100d08)', borderRadius: 16, border: '1px solid #1e1b15', opacity: 0.5 }} />
           ))}
         </div>
       )}
 
+      {/* Error */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-2xl p-5 text-sm text-red-700">
+        <div style={{ background: '#1a0f0f', border: '1px solid #5a2020', borderRadius: 16, padding: 20, fontSize: 13, color: '#e7625f' }}>
           Failed to load funds. Please refresh the page.
         </div>
       )}
 
+      {/* Empty */}
       {!loading && filtered.length === 0 && (
-        <div className="text-center py-24">
-          <div className="text-5xl mb-4">🔍</div>
-          <p className="text-xl font-bold text-slate-700">No funds found</p>
-          <p className="text-slate-400 mt-1 mb-4">Try a different search or clear your filters</p>
+        <div style={{ textAlign: 'center', padding: '60px 0' }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>🔍</div>
+          <p style={{ fontSize: 18, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>No funds found</p>
+          <p style={{ fontSize: 13, color: '#5a544a', marginTop: 4, marginBottom: 20 }}>Try a different search or clear your filters</p>
           <button onClick={() => { setSearch(''); setCategory('All'); setRisk('All') }}
-            className="bg-indigo-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-indigo-700 transition-colors">
+            style={{ background: '#e0aa3e', color: '#0d0b07', border: 'none', borderRadius: 11, padding: '11px 20px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
             Clear all filters
           </button>
         </div>
       )}
 
+      {/* Fund grid */}
       {!loading && paginated.length > 0 && (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {paginated.map(fund => {
-              const catTag = CAT_TAG[fund.category] || 'bg-slate-100 text-slate-600'
-              const riskBadge = RISK_BADGE[fund.risk_label] || 'bg-slate-100 text-slate-600 border border-slate-200'
-              const riskDot = RISK_DOT[fund.risk_label] || 'bg-slate-400'
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14 }}>
+            {paginated.map((fund, idx) => {
+              const cc = CAT_COLOR[fund.category] || '#8a8174'
+              const rc = RISK_COLOR[fund.risk_label] || '#8a8174'
+              const name = fund.scheme_name.split(' - ')[0]
               return (
-                <Link key={fund.scheme_code} to={`/fund/${fund.scheme_code}`}
-                  className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-lg hover:border-indigo-200 transition-all group block">
+                <Link key={fund.scheme_code} to={`/fund/${fund.scheme_code}`} className="card-rise"
+                  style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 16, padding: 16, textDecoration: 'none', display: 'block', transition: 'border-color .2s', animationDelay: `${(idx % 24) * 30}ms` }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = '#e0aa3e40'}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = '#25211a'}>
 
-                  {/* Fund house + name */}
-                  <div className="mb-3">
-                    <p className="text-xs text-slate-400 truncate mb-0.5">{fund.fund_house}</p>
-                    <h3 className="font-bold text-slate-900 text-sm leading-snug group-hover:text-indigo-700 transition-colors line-clamp-2">
-                      {fund.scheme_name.split(' - ')[0]}
-                    </h3>
-                  </div>
+                  <p style={{ fontSize: 10, color: '#5a544a', margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fund.fund_house}</p>
+                  <h3 style={{ fontSize: 13, fontWeight: 700, color: '#e8e2d4', lineHeight: 1.4, margin: '0 0 10px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    {name}
+                  </h3>
 
-                  {/* Tags row */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${catTag}`}>
-                      {fund.category}
-                    </span>
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${riskBadge} flex items-center gap-1`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${riskDot}`} />
+                  <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: 10, background: cc + '18', color: cc, borderRadius: 6, padding: '3px 8px', fontWeight: 700 }}>{fund.category}</span>
+                    <span style={{ fontSize: 10, background: rc + '14', color: rc, border: `1px solid ${rc}30`, borderRadius: 6, padding: '3px 8px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: rc, display: 'inline-block' }} />
                       {fund.risk_label}
                     </span>
                   </div>
 
-                  {/* Returns row */}
-                  <div className="grid grid-cols-3 gap-1 text-center bg-slate-50 rounded-xl p-2">
-                    <div>
-                      <div className={`text-xs font-bold ${fund.returns_1y != null ? (fund.returns_1y >= 0 ? 'text-emerald-600' : 'text-red-600') : 'text-slate-400'}`}>
-                        {fund.returns_1y != null ? `${fund.returns_1y > 0 ? '+' : ''}${fund.returns_1y}%` : '—'}
-                      </div>
-                      <div className="text-xs text-slate-400">1Y</div>
-                    </div>
-                    <div>
-                      <div className={`text-xs font-bold ${fund.returns_3y != null ? (fund.returns_3y >= 0 ? 'text-emerald-600' : 'text-red-600') : 'text-slate-400'}`}>
-                        {fund.returns_3y != null ? `${fund.returns_3y > 0 ? '+' : ''}${fund.returns_3y}%` : '—'}
-                      </div>
-                      <div className="text-xs text-slate-400">3Y</div>
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-slate-600">
-                        {fund.expense_ratio != null ? `${fund.expense_ratio}%` : '—'}
-                      </div>
-                      <div className="text-xs text-slate-400">ER</div>
-                    </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, background: '#0d0b07', borderRadius: 10, padding: 10 }}>
+                    {[['1Y', fund.returns_1y], ['3Y', fund.returns_3y], ['ER', fund.expense_ratio != null ? fund.expense_ratio + '%' : null]].map(([label, val]) => {
+                      const isReturn = label !== 'ER'
+                      const color = val == null ? '#3a352c' : isReturn ? (parseFloat(val) >= 0 ? '#7fb069' : '#e7625f') : '#c9c2b4'
+                      return (
+                        <div key={label} style={{ textAlign: 'center' }}>
+                          <div style={{ fontSize: 12, fontWeight: 700, color }}>{val != null ? (isReturn ? `${parseFloat(val) > 0 ? '+' : ''}${val}%` : val) : '—'}</div>
+                          <div style={{ fontSize: 10, color: '#5a544a', marginTop: 1 }}>{label}</div>
+                        </div>
+                      )
+                    })}
                   </div>
                 </Link>
               )
@@ -239,17 +211,16 @@ export default function Funds() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-3 pt-2">
-              <button onClick={() => setPage(p => Math.max(1,p-1))} disabled={page===1}
-                className="px-4 py-2 text-sm rounded-xl border border-slate-200 disabled:opacity-30 hover:bg-slate-50 transition-colors font-medium">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, paddingTop: 24 }}>
+              <button onClick={() => setPage(p => Math.max(1, p-1))} disabled={page === 1}
+                style={{ padding: '8px 18px', fontSize: 13, borderRadius: 10, border: '1px solid #25211a', background: page === 1 ? 'transparent' : '#16130d', color: page === 1 ? '#3a352c' : '#c9c2b4', cursor: page === 1 ? 'default' : 'pointer', fontWeight: 600 }}>
                 ← Previous
               </button>
-              <span className="text-sm text-slate-500 font-medium">
-                Page {page} of {totalPages}
-                <span className="text-slate-400"> ({filtered.length} funds)</span>
+              <span style={{ fontSize: 12, color: '#5a544a', fontWeight: 500 }}>
+                Page {page} of {totalPages} <span style={{ color: '#3a352c' }}>({filtered.length} funds)</span>
               </span>
-              <button onClick={() => setPage(p => Math.min(totalPages,p+1))} disabled={page===totalPages}
-                className="px-4 py-2 text-sm rounded-xl border border-slate-200 disabled:opacity-30 hover:bg-slate-50 transition-colors font-medium">
+              <button onClick={() => setPage(p => Math.min(totalPages, p+1))} disabled={page === totalPages}
+                style={{ padding: '8px 18px', fontSize: 13, borderRadius: 10, border: '1px solid #25211a', background: page === totalPages ? 'transparent' : '#16130d', color: page === totalPages ? '#3a352c' : '#c9c2b4', cursor: page === totalPages ? 'default' : 'pointer', fontWeight: 600 }}>
                 Next →
               </button>
             </div>

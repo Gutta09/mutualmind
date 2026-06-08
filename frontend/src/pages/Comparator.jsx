@@ -5,6 +5,7 @@ import FundSelector from '../components/funds/FundSelector'
 import NAVLineChart from '../components/charts/NAVLineChart'
 import ReturnsTable from '../components/funds/ReturnsTable'
 import { ChartSkeleton } from '../components/ui/LoadingSkeleton'
+import { S, COLORS } from '../utils/theme'
 
 const PERIODS = ['1m', '3m', '6m', '1y', '3y', '5y', 'all']
 const PERIOD_LABELS = { '1m': '1M', '3m': '3M', '6m': '6M', '1y': '1Y', '3y': '3Y', '5y': '5Y', all: 'All' }
@@ -19,100 +20,99 @@ export default function Comparator() {
   const selectedFundMeta = selectedCodes.map(code => funds.find(f => f.scheme_code === code)).filter(Boolean)
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-800 mb-1">Fund Comparator</h1>
-        <p className="text-slate-500 text-sm">Compare up to 5 funds with indexed performance charts</p>
+    <div style={{ ...S.page, maxWidth: 1000 }}>
+
+      <div style={{ marginBottom: 24 }}>
+        <h1 style={S.h1}>Fund Comparator</h1>
+        <p style={{ fontSize: 13, color: '#5a544a', margin: 0 }}>Compare up to 5 funds with indexed performance charts — normalized returns, not raw NAV</p>
       </div>
 
       {/* Fund selector */}
-      <div className="bg-white rounded-xl border border-slate-200 p-5">
-        <label className="block text-sm font-medium text-slate-700 mb-2">
-          Select funds to compare (max 5)
-        </label>
+      <div style={{ ...S.panel, marginBottom: 20 }}>
+        <div style={S.panelHead}>
+          <div>
+            <p style={S.panelTitle}>Select Funds</p>
+            <p style={S.panelSub}>Search and pick up to 5 funds to compare</p>
+          </div>
+          <span style={S.badge}>max 5</span>
+        </div>
+
         {fundsLoading ? (
-          <div className="h-10 bg-slate-100 rounded-lg animate-pulse" />
+          <div style={{ height: 44, background: '#1a1610', borderRadius: 10, opacity: 0.5 }} />
         ) : (
-          <FundSelector
-            funds={funds}
-            selected={selectedCodes}
-            onChange={setSelectedCodes}
-            maxFunds={5}
-          />
+          <FundSelector funds={funds} selected={selectedCodes} onChange={setSelectedCodes} maxFunds={5} />
         )}
+
         {selectedCodes.length > 0 && (
-          <p className="text-xs text-slate-400 mt-2">
-            Charts are indexed to 100 at the start of the period — showing relative performance, not raw NAV.
+          <p style={{ fontSize: 11, color: '#5a544a', marginTop: 10 }}>
+            📐 Charts are indexed to 100 at the start of the period — showing relative performance, not raw NAV
           </p>
         )}
       </div>
 
       {/* Chart area */}
       {selectedCodes.length > 0 && (
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          {/* Period selector */}
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-slate-700">Performance (Indexed to 100)</h2>
-            <div className="flex gap-1">
+        <div style={{ ...S.panel, marginBottom: 20 }}>
+          <div style={S.panelHead}>
+            <p style={S.panelTitle}>Performance (Indexed to 100)</p>
+            <div style={{ display: 'flex', gap: 4 }}>
               {PERIODS.map(p => (
-                <button
-                  key={p}
-                  onClick={() => setPeriod(p)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
-                    period === p
-                      ? 'bg-indigo-600 text-white'
-                      : 'text-slate-500 hover:bg-slate-100'
-                  }`}
-                >
+                <button key={p} onClick={() => setPeriod(p)}
+                  style={{ padding: '5px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, border: 'none', cursor: 'pointer', transition: 'all .15s', background: period === p ? '#e0aa3e' : '#1c1810', color: period === p ? '#0d0b07' : '#8a8174' }}>
                   {PERIOD_LABELS[p]}
                 </button>
               ))}
             </div>
           </div>
 
-          {navLoading && <ChartSkeleton height={320} />}
+          {navLoading && <ChartSkeleton height={300} />}
           {navError && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-600">{navError}</div>
+            <div style={{ background: '#1a0f0f', border: '1px solid #5a2020', borderRadius: 10, padding: 14, fontSize: 13, color: '#e7625f' }}>{navError}</div>
           )}
-          {!navLoading && !navError && navFunds.length > 0 && (
-            <NAVLineChart funds={navFunds} />
-          )}
+          {!navLoading && !navError && navFunds.length > 0 && <NAVLineChart funds={navFunds} />}
         </div>
       )}
 
       {/* Returns table */}
       {navFunds.length > 0 && !navLoading && (
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <h2 className="font-semibold text-slate-700 mb-3">Returns Comparison</h2>
+        <div style={{ ...S.panel, marginBottom: 20 }}>
+          <p style={{ ...S.panelTitle, marginBottom: 14 }}>Returns Comparison</p>
           <ReturnsTable funds={navFunds} />
         </div>
       )}
 
       {/* Fund metadata cards */}
       {selectedFundMeta.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {selectedFundMeta.map(fund => (
-            <div key={fund.scheme_code} className="bg-white rounded-xl border border-slate-200 p-4">
-              <p className="text-xs text-slate-500">{fund.fund_house}</p>
-              <h3 className="font-semibold text-slate-800 text-sm mb-2 leading-snug">
-                {fund.scheme_name.split(' - ')[0]}
-              </h3>
-              <div className="space-y-1 text-xs text-slate-600">
-                <div className="flex justify-between"><span>Category</span><span className="font-medium">{fund.category}</span></div>
-                <div className="flex justify-between"><span>Expense Ratio</span><span className="font-medium">{fund.expense_ratio}%</span></div>
-                <div className="flex justify-between"><span>AUM</span><span className="font-medium">₹{(fund.aum_cr / 1000).toFixed(1)}K Cr</span></div>
-                <div className="flex justify-between"><span>Min SIP</span><span className="font-medium">₹{fund.min_sip}</span></div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 14 }}>
+          {selectedFundMeta.map((fund, i) => {
+            const c = COLORS[i % COLORS.length]
+            return (
+              <div key={fund.scheme_code} style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: `1px solid ${c}25`, borderRadius: 14, padding: 16 }}>
+                <div style={{ width: 3, height: 28, background: c, borderRadius: 2, marginBottom: 8 }} />
+                <p style={{ fontSize: 10, color: '#5a544a', margin: '0 0 3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fund.fund_house}</p>
+                <h3 style={{ fontSize: 12, fontWeight: 700, color: '#e8e2d4', margin: '0 0 12px', lineHeight: 1.4 }}>
+                  {fund.scheme_name.split(' - ')[0]}
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 12 }}>
+                  {[['Category', fund.category], ['Expense Ratio', fund.expense_ratio ? fund.expense_ratio + '%' : '—'], ['AUM', fund.aum_cr ? '₹' + (fund.aum_cr / 1000).toFixed(1) + 'K Cr' : '—'], ['Min SIP', fund.min_sip ? '₹' + fund.min_sip : '—']].map(([label, val]) => (
+                    <div key={label} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#5a544a' }}>{label}</span>
+                      <span style={{ color: '#c9c2b4', fontWeight: 600 }}>{val}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
 
+      {/* Empty state */}
       {selectedCodes.length === 0 && (
-        <div className="text-center py-16 text-slate-400">
-          <div className="text-5xl mb-3">📊</div>
-          <p className="font-medium">Search for funds above to start comparing</p>
-          <p className="text-sm mt-1">You can compare up to 5 funds at once</p>
+        <div style={{ textAlign: 'center', padding: '60px 0' }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>📊</div>
+          <p style={{ fontSize: 16, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>Search for funds above to start comparing</p>
+          <p style={{ fontSize: 13, color: '#5a544a', marginTop: 6 }}>You can compare up to 5 funds at once</p>
         </div>
       )}
     </div>
