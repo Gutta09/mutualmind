@@ -5,7 +5,7 @@ import {
 import { indexedNAV } from '../../utils/navUtils'
 import { useMemo } from 'react'
 
-const COLORS = ['#6366f1', '#f59e0b', '#10b981']
+const COLORS = ['#6366f1', '#f59e0b', '#10b981', '#f43f5e', '#8b5cf6']
 
 function mergeNavSeries(funds) {
   if (!funds.length) return []

@@ -9,13 +9,13 @@ VALID_PERIODS = {"1m", "3m", "6m", "1y", "3y", "5y", "all"}
 # Must be defined BEFORE /{scheme_code}/nav — static routes take priority
 @router.get("/funds/compare/nav")
 async def compare_nav(
-    codes: str = Query(..., description="Comma-separated scheme codes, max 3"),
+    codes: str = Query(..., description="Comma-separated scheme codes, max 5"),
     period: str = Query("1y"),
 ):
     if period not in VALID_PERIODS:
         raise HTTPException(status_code=400, detail=f"period must be one of {VALID_PERIODS}")
 
-    code_list = [int(c.strip()) for c in codes.split(",") if c.strip()][:3]
+    code_list = [int(c.strip()) for c in codes.split(",") if c.strip()][:5]
     if not code_list:
         raise HTTPException(status_code=400, detail="Provide at least one scheme code")
 

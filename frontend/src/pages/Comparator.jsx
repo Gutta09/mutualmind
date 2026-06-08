@@ -22,13 +22,13 @@ export default function Comparator() {
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-slate-800 mb-1">Fund Comparator</h1>
-        <p className="text-slate-500 text-sm">Compare up to 3 funds with indexed performance charts</p>
+        <p className="text-slate-500 text-sm">Compare up to 5 funds with indexed performance charts</p>
       </div>
 
       {/* Fund selector */}
       <div className="bg-white rounded-xl border border-slate-200 p-5">
         <label className="block text-sm font-medium text-slate-700 mb-2">
-          Select funds to compare (max 3)
+          Select funds to compare (max 5)
         </label>
         {fundsLoading ? (
           <div className="h-10 bg-slate-100 rounded-lg animate-pulse" />
@@ -37,7 +37,7 @@ export default function Comparator() {
             funds={funds}
             selected={selectedCodes}
             onChange={setSelectedCodes}
-            maxFunds={3}
+            maxFunds={5}
           />
         )}
         {selectedCodes.length > 0 && (
@@ -90,7 +90,7 @@ export default function Comparator() {
 
       {/* Fund metadata cards */}
       {selectedFundMeta.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {selectedFundMeta.map(fund => (
             <div key={fund.scheme_code} className="bg-white rounded-xl border border-slate-200 p-4">
               <p className="text-xs text-slate-500">{fund.fund_house}</p>
@@ -112,7 +112,7 @@ export default function Comparator() {
         <div className="text-center py-16 text-slate-400">
           <div className="text-5xl mb-3">📊</div>
           <p className="font-medium">Search for funds above to start comparing</p>
-          <p className="text-sm mt-1">You can compare up to 3 funds at once</p>
+          <p className="text-sm mt-1">You can compare up to 5 funds at once</p>
         </div>
       )}
     </div>

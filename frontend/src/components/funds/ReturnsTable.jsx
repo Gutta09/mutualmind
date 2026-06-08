@@ -1,6 +1,6 @@
 const PERIODS = ['1m', '3m', '6m', '1y', '3y', '5y']
 const PERIOD_LABELS = { '1m': '1 Month', '3m': '3 Month', '6m': '6 Month', '1y': '1 Year', '3y': '3 Year', '5y': '5 Year' }
-const COLORS = ['text-indigo-600', 'text-amber-600', 'text-emerald-600']
+const COLORS = ['text-indigo-600', 'text-amber-600', 'text-emerald-600', 'text-rose-600', 'text-violet-600']
 
 export default function ReturnsTable({ funds = [] }) {
   if (!funds.length) return null
