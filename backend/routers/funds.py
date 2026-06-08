@@ -4,9 +4,19 @@ from database import funds_col
 router = APIRouter()
 
 
+_LIST_FIELDS = {
+    "scheme_code": 1, "scheme_name": 1, "fund_house": 1, "category": 1,
+    "risk_label": 1, "expense_ratio": 1, "returns_1y": 1, "returns_3y": 1,
+    "returns_5y": 1, "current_nav": 1, "aum_cr": 1, "min_sip": 1,
+    "top_holdings": 1, "_id": 0,
+}
+
+
 def _strip_id(doc: dict) -> dict:
     doc.pop("_id", None)
     doc.pop("created_at", None)
+    doc.pop("updated_at", None)
+    doc.pop("amfi_category", None)
     return doc
 
 
@@ -24,8 +34,8 @@ async def list_funds(
     if search:
         query["$text"] = {"$search": search}
 
-    cursor = funds_col().find(query)
-    funds = [_strip_id(doc) async for doc in cursor]
+    cursor = funds_col().find(query, _LIST_FIELDS).sort("scheme_name", 1)
+    funds = [doc async for doc in cursor]
     return {"funds": funds, "total": len(funds)}
 
 
