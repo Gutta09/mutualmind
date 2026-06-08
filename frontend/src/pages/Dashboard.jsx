@@ -2,45 +2,45 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { RiskBadge } from '../components/ui/Navbar'
-import { Sparkles, TrendingUp, Shield, Target, Zap, ArrowUpRight } from 'lucide-react'
+import { Sparkles, TrendingUp, Shield, Target, Zap, Brain } from 'lucide-react'
 import api from '../utils/api'
 import { COLORS, tooltipStyle } from '../utils/theme'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 
 const RISK_META = {
-  Conservative: { icon: '🛡️', tagline: 'Safety first — steady, low-risk growth', color: '#7fb069' },
-  Moderate:     { icon: '⚖️', tagline: 'Balanced growth with managed risk',       color: '#e0aa3e' },
-  Aggressive:   { icon: '🚀', tagline: 'Maximum growth over the long term',        color: '#e7625f' },
+  Conservative: { tagline: 'Safety first — steady, low-risk growth', color: '#7fb069' },
+  Moderate:     { tagline: 'Balanced growth with managed risk',       color: '#e0aa3e' },
+  Aggressive:   { tagline: 'Maximum growth over the long term',       color: '#e7625f' },
 }
 
 const CAT_INFO = {
-  'Large Cap':     { tip: "India's top 100 companies — stable" },
-  'Mid Cap':       { tip: 'Ranks 101–250 — higher growth potential' },
-  'Small Cap':     { tip: 'Ranks 251+ — high risk, high reward' },
-  'Flexi Cap':     { tip: 'Invests across all company sizes' },
-  'ELSS':          { tip: 'Tax-saver under Sec 80C — 3yr lock-in' },
-  'Index':         { tip: 'Tracks Nifty/Sensex — lowest cost' },
-  'Thematic':      { tip: 'Sector-specific focused bet' },
-  'Multi Cap':     { tip: 'Balanced across all sizes' },
-  'Balanced Advantage': { tip: 'Auto-adjusts equity and debt' },
+  'Large Cap':          "India's top 100 companies — stable",
+  'Mid Cap':            'Ranks 101–250 — higher growth potential',
+  'Small Cap':          'Ranks 251+ — high risk, high reward',
+  'Flexi Cap':          'Invests across all company sizes',
+  'ELSS':               'Tax-saver under Sec 80C — 3yr lock-in',
+  'Index':              'Tracks Nifty/Sensex — lowest cost',
+  'Thematic':           'Sector-specific focused bet',
+  'Multi Cap':          'Balanced across all sizes',
+  'Balanced Advantage': 'Auto-adjusts equity and debt',
 }
 
 const QUICK = [
-  { to: '/compare',    icon: <TrendingUp size={18} />, label: 'Compare Funds',   sub: 'NAV charts side-by-side' },
-  { to: '/calculator', icon: <Target size={18} />,     label: 'SIP Calculator', sub: 'Plan your monthly SIP' },
-  { to: '/overlap',   icon: <Zap size={18} />,         label: 'Overlap Check',  sub: 'Find duplicate holdings' },
-  { to: '/funds',     icon: <Shield size={18} />,      label: 'Browse 987 Funds', sub: 'All direct plan funds' },
+  { to: '/compare',    icon: <TrendingUp size={17} />, label: 'Compare Funds',    sub: 'NAV charts side-by-side' },
+  { to: '/calculator', icon: <Target size={17} />,     label: 'SIP Calculator',  sub: 'Plan your monthly SIP' },
+  { to: '/overlap',    icon: <Zap size={17} />,        label: 'Overlap Check',   sub: 'Find duplicate holdings' },
+  { to: '/funds',      icon: <Shield size={17} />,     label: 'Browse 987 Funds',sub: 'All direct plan funds' },
 ]
 
 function RecCard({ rec, idx }) {
   const c = COLORS[idx % COLORS.length]
   const name = rec.scheme_name?.split(' - ')[0] || `Fund ${rec.scheme_code}`
-  const cat = CAT_INFO[rec.category] || { tip: rec.category }
+  const tip = CAT_INFO[rec.category] || rec.category
 
   return (
     <div className="card-rise" style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 18, padding: 20, animationDelay: `${idx * 80}ms` }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
-        <div style={{ width: 40, height: 40, borderRadius: 11, background: c + '22', border: `1px solid ${c}44`, display: 'grid', placeItems: 'center', fontSize: 16, fontWeight: 800, color: c, flexShrink: 0 }}>
+        <div style={{ width: 38, height: 38, borderRadius: 10, background: c + '20', border: `1px solid ${c}40`, display: 'grid', placeItems: 'center', fontSize: 15, fontWeight: 800, color: c, flexShrink: 0 }}>
           {idx + 1}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -50,7 +50,7 @@ function RecCard({ rec, idx }) {
           </Link>
           <div style={{ marginTop: 5, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: 10, background: c + '18', color: c, borderRadius: 6, padding: '3px 8px', fontWeight: 700 }}>{rec.category}</span>
-            <span style={{ fontSize: 10, color: '#5a544a' }}>ⓘ {cat.tip}</span>
+            <span style={{ fontSize: 10, color: '#5a544a' }}>{tip}</span>
           </div>
         </div>
         <div style={{ textAlign: 'right', flexShrink: 0 }}>
@@ -63,7 +63,7 @@ function RecCard({ rec, idx }) {
         <div style={{ width: `${rec.allocation_pct}%`, height: '100%', background: c, borderRadius: 2 }} />
       </div>
 
-      <p style={{ fontSize: 13, color: '#c9c2b4', lineHeight: 1.6, marginBottom: 14 }}>💡 {rec.reason}</p>
+      <p style={{ fontSize: 13, color: '#c9c2b4', lineHeight: 1.6, marginBottom: 14 }}>{rec.reason}</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
         {[['1Y Return', rec.returns_1y], ['3Y Return', rec.returns_3y], ['Exp. Ratio', rec.expense_ratio ? rec.expense_ratio + '%' : null]].map(([label, val]) => (
@@ -107,34 +107,32 @@ export default function Dashboard() {
   return (
     <div style={{ padding: '28px 24px 60px', maxWidth: 900, margin: '0 auto', position: 'relative', zIndex: 2 }}>
 
-      {/* Glow */}
-      <div style={{ position: 'fixed', top: -200, right: -100, width: 500, height: 500, background: 'radial-gradient(circle,rgba(224,170,62,.06),transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', top: -200, right: -100, width: 500, height: 500, background: 'radial-gradient(circle,rgba(224,170,62,.05),transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
 
       {/* Profile card */}
       <div className="card-rise" style={{ background: 'linear-gradient(160deg,#16130d,#110e09)', border: `1px solid ${meta.color}30`, borderRadius: 20, padding: 24, marginBottom: 24 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
-          <span style={{ fontSize: 36 }}>{meta.icon}</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }}>
           <div>
-            <div style={{ fontSize: 11, color: '#5a544a', letterSpacing: '1px', textTransform: 'uppercase' }}>Your investor profile</div>
-            <div style={{ fontSize: 26, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>{riskProfile} Investor</div>
+            <div style={{ fontSize: 11, color: '#5a544a', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 4 }}>Your investor profile</div>
+            <div style={{ fontSize: 24, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>{riskProfile} Investor</div>
           </div>
           <RiskBadge profile={riskProfile} size="lg" />
         </div>
         <p style={{ fontSize: 13, color: '#8a8174', margin: '0 0 14px' }}>{meta.tagline}</p>
         {quizResult && (
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {[`🎯 ${quizResult.investment_goal}`, `📅 ${quizResult.horizon_years}-year horizon`].map(t => (
+            {[`Goal: ${quizResult.investment_goal}`, `Horizon: ${quizResult.horizon_years} years`].map(t => (
               <span key={t} style={{ fontSize: 11, background: 'rgba(224,170,62,.08)', border: '1px solid rgba(224,170,62,.15)', color: '#e0aa3e', borderRadius: 999, padding: '5px 12px', fontWeight: 600 }}>{t}</span>
             ))}
           </div>
         )}
-        <button onClick={() => navigate('/quiz')} style={{ marginTop: 12, fontSize: 11, color: '#5a544a', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>Retake quiz</button>
+        <button onClick={() => navigate('/quiz')} style={{ marginTop: 12, fontSize: 11, color: '#5a544a', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>Retake quiz</button>
       </div>
 
       {/* AI Picks header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
         <h2 style={{ fontSize: 20, fontWeight: 700, color: '#e8e2d4', margin: 0, fontFamily: 'Georgia, serif' }}>Your AI-Curated Portfolio</h2>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 10, background: '#e0aa3e', color: '#0d0b07', fontWeight: 800, padding: '4px 10px', borderRadius: 999, letterSpacing: '.5px' }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 10, background: '#e0aa3e', color: '#0d0b07', fontWeight: 800, padding: '4px 10px', borderRadius: 999, letterSpacing: '.5px' }}>
           <Sparkles size={11} /> AI
         </span>
       </div>
@@ -145,7 +143,9 @@ export default function Dashboard() {
       {/* Loading */}
       {loading && (
         <div style={{ background: 'linear-gradient(160deg,#16130d,#110e09)', border: '1px solid #25211a', borderRadius: 18, padding: 40, textAlign: 'center' }}>
-          <div style={{ fontSize: 42, marginBottom: 12 }}>🧠</div>
+          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(224,170,62,.1)', display: 'grid', placeItems: 'center', margin: '0 auto 16px', color: '#e0aa3e' }}>
+            <Brain size={22} />
+          </div>
           <div style={{ fontSize: 16, fontWeight: 600, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>Analyzing 987 funds for you…</div>
           <div style={{ fontSize: 12, color: '#5a544a', marginTop: 6 }}>Usually takes about 10 seconds</div>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 18 }}>
@@ -168,15 +168,12 @@ export default function Dashboard() {
           {/* Summary */}
           {recommendations.ai_summary && (
             <div className="card-rise" style={{ background: 'rgba(224,170,62,.06)', border: '1px solid rgba(224,170,62,.15)', borderRadius: 16, padding: 18 }}>
-              <div style={{ display: 'flex', gap: 12 }}>
-                <span style={{ fontSize: 20 }}>🤖</span>
-                <p style={{ fontSize: 13, color: '#c9c2b4', lineHeight: 1.65, margin: 0 }}>{recommendations.ai_summary}</p>
-              </div>
+              <p style={{ fontSize: 13, color: '#c9c2b4', lineHeight: 1.65, margin: 0 }}>{recommendations.ai_summary}</p>
             </div>
           )}
 
           {/* Allocation overview */}
-          <div className="card-rise" style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 18, padding: 20, display: 'flex', alignItems: 'center', gap: 24 }}>
+          <div className="card-rise" style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 18, padding: 20, display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
             <div style={{ width: 120, height: 120, flexShrink: 0 }}>
               <ResponsiveContainer width="100%" height={120}>
                 <PieChart>
@@ -187,26 +184,25 @@ export default function Dashboard() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, minWidth: 240 }}>
               <div style={{ fontSize: 11, color: '#5a544a', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 10 }}>Suggested Allocation</div>
               {recs.map((r, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                   <div style={{ width: 10, height: 10, borderRadius: '50%', background: COLORS[i % COLORS.length], flexShrink: 0 }} />
-                  <div style={{ flex: 1, height: 4, background: '#1a1610', borderRadius: 2 }}>
+                  <div style={{ flex: 1, height: 3, background: '#1a1610', borderRadius: 2 }}>
                     <div style={{ width: `${r.allocation_pct}%`, height: '100%', background: COLORS[i % COLORS.length], borderRadius: 2 }} />
                   </div>
                   <span style={{ fontSize: 11, color: '#c9c2b4', width: 28, textAlign: 'right', fontWeight: 700 }}>{r.allocation_pct}%</span>
-                  <span style={{ fontSize: 11, color: '#8a8174', flex: 2 }}>{r.scheme_name?.split(' - ')[0]?.slice(0, 28)}</span>
+                  <span style={{ fontSize: 11, color: '#8a8174', flex: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.scheme_name?.split(' - ')[0]?.slice(0, 28)}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Individual cards */}
           {recs.map((rec, i) => <RecCard key={rec.scheme_code} rec={rec} idx={i} />)}
 
           <div style={{ textAlign: 'center', fontSize: 11, color: '#3a352c', paddingTop: 4 }}>
-            ⚠️ Educational only — consult a SEBI-registered advisor before investing
+            Educational only — consult a SEBI-registered advisor before investing
           </div>
         </div>
       )}
@@ -214,11 +210,13 @@ export default function Dashboard() {
       {/* No quiz result fallback */}
       {!loading && !recommendations && !error && (
         <div style={{ background: 'linear-gradient(160deg,#16130d,#110e09)', border: '2px dashed #25211a', borderRadius: 18, padding: 40, textAlign: 'center' }}>
-          <div style={{ fontSize: 42, marginBottom: 12 }}>🎯</div>
+          <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(224,170,62,.1)', display: 'grid', placeItems: 'center', margin: '0 auto 16px', color: '#e0aa3e' }}>
+            <Target size={24} />
+          </div>
           <div style={{ fontSize: 16, fontWeight: 600, color: '#e8e2d4', fontFamily: 'Georgia, serif' }}>No recommendations yet</div>
           <div style={{ fontSize: 12, color: '#5a544a', marginTop: 6, marginBottom: 20 }}>Complete the quiz to get your personalized AI picks</div>
           <button onClick={() => navigate('/quiz')} style={{ background: '#e0aa3e', color: '#0d0b07', border: 'none', borderRadius: 11, padding: '12px 24px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-            Take the Quiz →
+            Take the Quiz
           </button>
         </div>
       )}

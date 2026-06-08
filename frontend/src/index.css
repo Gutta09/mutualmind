@@ -45,6 +45,11 @@ input[type=range]::-moz-range-thumb {
   background: var(--amber); border: none; cursor: pointer;
 }
 
+/* force dark everywhere — kill any stray tailwind bg-white / bg-slate */
+.bg-white, .bg-slate-50, .bg-slate-100, .bg-slate-200, .bg-slate-800, .bg-slate-900, .bg-slate-950 {
+  background-color: transparent !important;
+}
+
 /* react-select overrides for dark theme */
 .rs__control {
   background: var(--card) !important;

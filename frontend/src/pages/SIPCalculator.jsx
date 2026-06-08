@@ -4,10 +4,10 @@ import { monthlyRequired, corpusGrowthData, formatINR } from '../utils/sipMath'
 import { S } from '../utils/theme'
 
 const GOAL_PRESETS = [
-  { label: '🏠 House Down Payment', amount: 2500000, years: 7 },
-  { label: '🎓 Child Education',    amount: 5000000, years: 15 },
-  { label: '🌅 Retirement',         amount: 30000000, years: 25 },
-  { label: '🚗 Car',                amount: 1000000,  years: 3 },
+  { label: 'House Down Payment', amount: 2500000, years: 7 },
+  { label: 'Child Education',    amount: 5000000, years: 15 },
+  { label: 'Retirement',         amount: 30000000, years: 25 },
+  { label: 'Car',                amount: 1000000,  years: 3 },
 ]
 
 function Slider({ label, min, max, step, value, onChange, leftLabel, rightLabel, format }) {
@@ -111,7 +111,7 @@ export default function SIPCalculator() {
 
       {crossoverYear && (
         <div style={{ background: 'rgba(127,176,105,.08)', border: '1px solid rgba(127,176,105,.2)', borderRadius: 12, padding: '12px 16px', fontSize: 13, color: '#7fb069', marginBottom: 12 }}>
-          🎯 Your returns outpace your principal around <strong>year {crossoverYear}</strong> — the compounding inflection point
+          Your returns outpace your principal around <strong>year {crossoverYear}</strong> — the compounding inflection point
         </div>
       )}
 

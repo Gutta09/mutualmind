@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { RiskBadge } from '../ui/Navbar'
-
-const COLORS = ['#6366f1', '#f59e0b', '#10b981', '#f43f5e', '#8b5cf6']
+import { COLORS, tooltipStyle } from '../../utils/theme'
 
 export default function RecommendationCard({ recommendations = [], aiSummary = '' }) {
   if (!recommendations.length) return null
@@ -14,55 +13,42 @@ export default function RecommendationCard({ recommendations = [], aiSummary = '
   }))
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-5">
-      <div className="flex items-center gap-2 mb-1">
-        <span className="text-lg">🤖</span>
-        <h3 className="font-semibold text-slate-800">AI Recommendations</h3>
+    <div style={{ background: 'linear-gradient(160deg,#16130d,#100d08)', border: '1px solid #25211a', borderRadius: 18, padding: 22 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+        <h3 style={{ fontSize: 17, fontWeight: 700, color: '#e8e2d4', fontFamily: 'Georgia, serif', margin: 0 }}>AI Recommendations</h3>
       </div>
       {aiSummary && (
-        <p className="text-sm text-slate-600 mb-4 leading-relaxed">{aiSummary}</p>
+        <p style={{ fontSize: 13, color: '#8a8174', marginBottom: 20, lineHeight: 1.65 }}>{aiSummary}</p>
       )}
 
-      <div className="flex flex-col md:flex-row gap-4">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {/* Allocation donut */}
-        <div className="w-full md:w-48 shrink-0">
+        <div style={{ width: '100%', maxWidth: 200 }}>
           <ResponsiveContainer width="100%" height={160}>
             <PieChart>
               <Pie data={pieData} cx="50%" cy="50%" innerRadius={45} outerRadius={70} paddingAngle={2} dataKey="value">
-                {pieData.map((entry, i) => (
-                  <Cell key={i} fill={entry.color} />
-                ))}
+                {pieData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
               </Pie>
-              <Tooltip formatter={(v) => [`${v}%`, 'Allocation']} />
+              <Tooltip contentStyle={tooltipStyle} formatter={v => [`${v}%`, 'Allocation']} />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
         {/* Fund list */}
-        <div className="flex-1 space-y-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {recommendations.map((rec, i) => (
-            <div key={rec.scheme_code} className="flex items-start gap-3">
-              <div
-                className="w-3 h-3 rounded-full mt-1 shrink-0"
-                style={{ backgroundColor: COLORS[i % COLORS.length] }}
-              />
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <Link
-                    to={`/fund/${rec.scheme_code}`}
-                    className="text-sm font-semibold text-slate-800 hover:text-indigo-600 truncate"
-                  >
+            <div key={rec.scheme_code} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: COLORS[i % COLORS.length], marginTop: 4, flexShrink: 0 }} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
+                  <Link to={`/fund/${rec.scheme_code}`} style={{ fontSize: 13, fontWeight: 700, color: '#e8e2d4', textDecoration: 'none', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {rec.scheme_name?.split(' - ')[0]}
                   </Link>
-                  <span className="text-xs font-bold text-indigo-600 shrink-0">{rec.allocation_pct}%</span>
+                  <span style={{ fontSize: 12, fontWeight: 800, color: COLORS[i % COLORS.length], flexShrink: 0 }}>{rec.allocation_pct}%</span>
                 </div>
-                <p className="text-xs text-slate-500 leading-snug">{rec.reason}</p>
-                {/* Allocation bar */}
-                <div className="h-1 bg-slate-100 rounded mt-1.5">
-                  <div
-                    className="h-full rounded transition-all"
-                    style={{ width: `${rec.allocation_pct}%`, backgroundColor: COLORS[i % COLORS.length] }}
-                  />
+                <p style={{ fontSize: 12, color: '#5a544a', lineHeight: 1.5, margin: '0 0 6px' }}>{rec.reason}</p>
+                <div style={{ height: 3, background: '#1a1610', borderRadius: 2 }}>
+                  <div style={{ width: `${rec.allocation_pct}%`, height: '100%', background: COLORS[i % COLORS.length], borderRadius: 2 }} />
                 </div>
               </div>
             </div>
@@ -70,7 +56,7 @@ export default function RecommendationCard({ recommendations = [], aiSummary = '
         </div>
       </div>
 
-      <p className="text-xs text-slate-400 mt-4 border-t border-slate-100 pt-3">
+      <p style={{ fontSize: 11, color: '#3a352c', marginTop: 18, paddingTop: 14, borderTop: '1px solid #1e1b15' }}>
         AI suggestions are educational only. Consult a SEBI-registered advisor before investing.
       </p>
     </div>
