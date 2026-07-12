@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from datetime import datetime, timezone
 from database import user_profiles_col, funds_col
 from models.user import RecommendationsRequest
-from services.claude_client import get_recommendations
+from services.llm_client import get_recommendations
 
 router = APIRouter()
 

@@ -1,6 +1,6 @@
 # MutualMind
 
-AI-powered Indian mutual fund research platform. Built with React + Vite, FastAPI, MongoDB, and Claude API.
+AI-powered Indian mutual fund research platform. Built with React + Vite, FastAPI, MongoDB, and Groq (Llama 3.3).
 
 ## Features
 
@@ -8,8 +8,8 @@ AI-powered Indian mutual fund research platform. Built with React + Vite, FastAP
 - **Fund Comparator** — Compare up to 3 funds with indexed NAV charts and a color-coded returns table
 - **Portfolio Overlap Visualizer** — D3 Venn diagram showing shared stock holdings across selected funds
 - **SIP Goal Planner** — Calculate required monthly SIP for any financial goal with a corpus growth chart
-- **AI Recommendations** — Claude API suggests best-fit funds based on your risk profile and goal
-- **News Sentiment** — Latest news for a fund's top holdings, scored bullish / bearish / neutral by Claude
+- **AI Recommendations** — Groq (Llama 3.3) suggests best-fit funds based on your risk profile and goal
+- **News Sentiment** — Latest news for a fund's top holdings, scored bullish / bearish / neutral by the LLM
 
 ---
 
@@ -20,7 +20,7 @@ AI-powered Indian mutual fund research platform. Built with React + Vite, FastAP
 - Python 3.11+ (`/opt/homebrew/bin/python3.11` on macOS M-series)
 - Node.js 18+
 - MongoDB Atlas account (free M0 tier)
-- Anthropic API key
+- Groq API key (free at console.groq.com)
 - NewsAPI.org key (free tier — sign up at newsapi.org)
 
 ---
@@ -94,7 +94,7 @@ mutualmind/
 │   │   └── news.py          # GET /api/funds/{code}/news
 │   └── services/
 │       ├── mfapi_client.py  # mfapi.in NAV data fetcher + 6h cache
-│       ├── claude_client.py # Claude API wrapper (recommendations + sentiment)
+│       ├── llm_client.py    # Groq LLM wrapper (recommendations + sentiment)
 │       └── news_client.py   # NewsAPI.org client
 └── frontend/
     └── src/
@@ -118,7 +118,7 @@ mutualmind/
 | GET | `/api/funds/{code}/nav` | NAV history with period filter |
 | POST | `/api/quiz/submit` | Score quiz + save risk profile |
 | GET | `/api/quiz/profile/{session_id}` | Retrieve saved profile |
-| POST | `/api/ai/recommendations` | Get Claude-powered fund picks |
+| POST | `/api/ai/recommendations` | Get LLM-powered fund picks |
 | GET | `/api/funds/{code}/news` | News + sentiment for a fund's top holdings |
 
 ---

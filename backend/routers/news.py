@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from datetime import datetime, timezone
 from database import news_cache_col, funds_col
 from services.news_client import fetch_fund_news
-from services.claude_client import get_sentiments
+from services.llm_client import get_sentiments
 
 router = APIRouter()
 
